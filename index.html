@@ -27,43 +27,67 @@
             padding: 20px;
             box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            width: min(500px, 100%);
+            width: min(550px, 100%);
         }
         h1 {
             text-align: center;
             color: white;
             font-weight: 600;
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin: 0 0 4px;
             text-shadow: 0 4px 10px rgba(0, 200, 255, 0.4);
         }
         .sub {
             text-align: center;
             color: #8ab3cf;
-            font-size: 0.8rem;
-            margin-bottom: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 16px;
+        }
+        .size-panel {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .size-btn {
+            background: #1e3a4a;
+            color: #8ab3cf;
+            border: 1px solid #2f5568;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .size-btn.active {
+            background: #31738f;
+            color: white;
+            border-color: #6ee7f7;
+            box-shadow: 0 2px 0 #124052;
+            transform: translateY(-1px);
         }
         .score-panel {
             display: flex;
             justify-content: space-between;
-            gap: 16px;
-            margin-bottom: 24px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
         .score-card {
             background: #1e3a4a;
             border-radius: 30px;
-            padding: 12px 20px;
+            padding: 8px 12px;
             text-align: center;
             flex: 1;
-            box-shadow: 0 6px 0 #0b1a22;
+            box-shadow: 0 4px 0 #0b1a22;
             border: 1px solid #2f5568;
         }
         .score-label {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #8ab3cf;
         }
         .score-value {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: bold;
             color: #6ee7f7;
         }
@@ -72,29 +96,29 @@
         }
         .board {
             background: #1a2f3f;
-            border-radius: 36px;
-            padding: 12px;
-            margin-bottom: 24px;
+            border-radius: 28px;
+            padding: 10px;
+            margin-bottom: 20px;
             box-shadow: inset 0 0 10px #0a1a24, 0 10px 20px rgba(0,0,0,0.3);
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            gap: 8px;
             aspect-ratio: 1 / 1;
         }
         .tile {
             background: #1f3e4b;
-            border-radius: 20px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
             font-weight: bold;
             color: white;
             transition: all 0.08s linear;
-            box-shadow: 0 6px 0 #0b1a22;
+            box-shadow: 0 4px 0 #0b1a22;
+            font-size: 1.2rem;
         }
+        /* Цвета плиток */
         .tile[data-value="2"] { background: #2c5a6b; }
         .tile[data-value="4"] { background: #3a6e82; }
         .tile[data-value="8"] { background: #4c8c9e; }
@@ -106,39 +130,50 @@
         .tile[data-value="512"] { background: #f57c00; color: white; }
         .tile[data-value="1024"] { background: #e56700; color: white; }
         .tile[data-value="2048"] { background: #d9530f; color: white; text-shadow: 0 0 5px gold; }
+        .tile[data-value="4096"] { background: #b93b0f; color: white; }
+        .tile[data-value="8192"] { background: #8b1a0f; color: white; }
         .reset-btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             border-radius: 60px;
             border: none;
             background: #31738f;
             color: white;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            box-shadow: 0 8px 0 #124052;
+            box-shadow: 0 6px 0 #124052;
             cursor: pointer;
             transition: 0.07s linear;
         }
         .reset-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 4px 0 #124052;
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #124052;
         }
         .footer {
             text-align: center;
             color: #366277;
-            font-size: 0.75rem;
-            margin-top: 16px;
+            font-size: 0.7rem;
+            margin-top: 14px;
         }
-        @media (max-width: 480px) {
-            .tile { font-size: 1.3rem; }
-            .score-value { font-size: 1.5rem; }
+        @media (max-width: 500px) {
+            .tile { font-size: 0.9rem; }
+            .score-value { font-size: 1.2rem; }
+            .size-btn { font-size: 0.7rem; padding: 4px 8px; }
         }
     </style>
 </head>
 <body>
 <div class="game-container">
     <h1>2048</h1>
-    <div class="sub">⚡ соединяй числа, бей рекорды</div>
+    <div class="sub">⚡ меняй размер поля, бей рекорды</div>
+
+    <div class="size-panel" id="sizePanel">
+        <button class="size-btn" data-size="4">4×4</button>
+        <button class="size-btn" data-size="5">5×5</button>
+        <button class="size-btn" data-size="6">6×6</button>
+        <button class="size-btn" data-size="7">7×7</button>
+        <button class="size-btn" data-size="8">8×8</button>
+    </div>
 
     <div class="score-panel">
         <div class="score-card">
@@ -161,7 +196,7 @@
 
 <script>
     (function(){
-        // ---------- ЗВУКИ через Web Audio API ----------
+        // ---------- ЗВУКИ ----------
         let audioCtx = null;
         
         function initAudio() {
@@ -185,74 +220,75 @@
         
         function playMove() {
             initAudio();
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            playTone(440, 0.08, 0.15);
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            playTone(440, 0.06, 0.12);
         }
         
         function playMerge() {
             initAudio();
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            playTone(660, 0.12, 0.25);
-            setTimeout(() => playTone(880, 0.1, 0.2), 80);
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            playTone(660, 0.1, 0.2);
+            setTimeout(() => playTone(880, 0.08, 0.15), 70);
         }
         
         function playWin() {
             initAudio();
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            playTone(523.25, 0.3, 0.3);
-            setTimeout(() => playTone(659.25, 0.3, 0.3), 200);
-            setTimeout(() => playTone(783.99, 0.5, 0.4), 400);
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            playTone(523.25, 0.25, 0.3);
+            setTimeout(() => playTone(659.25, 0.25, 0.3), 180);
+            setTimeout(() => playTone(783.99, 0.4, 0.35), 360);
         }
         
         function playReset() {
             initAudio();
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            playTone(330, 0.1, 0.2);
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            playTone(330, 0.1, 0.15);
         }
         
-        // ---------- Игровая логика ----------
-        let board = [
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]
-        ];
+        // ---------- Игровые переменные ----------
+        let currentSize = 4;
+        let board = [];
         let score = 0;
-        let best = 0;
+        let best = {};
         
-        const savedBest = localStorage.getItem('memuar2048_best');
-        if(savedBest && !isNaN(parseInt(savedBest))) best = parseInt(savedBest);
+        // Загрузка рекордов для каждого размера
+        const savedBest = localStorage.getItem('memuar2048_best_sizes');
+        if (savedBest) {
+            try { best = JSON.parse(savedBest); } catch(e) {}
+        }
         
         const gridEl = document.getElementById('grid');
         const scoreEl = document.getElementById('score');
         const bestEl = document.getElementById('best');
+        const sizeBtns = document.querySelectorAll('.size-btn');
         
         function updateUI(){
             scoreEl.innerText = score;
-            bestEl.innerText = best;
+            const currentBest = best[currentSize] || 0;
+            bestEl.innerText = currentBest;
         }
         
-        function saveBest(){
-            if(score > best){
-                best = score;
-                localStorage.setItem('memuar2048_best', best);
+        function saveBestForCurrentSize(){
+            const currentBest = best[currentSize] || 0;
+            if(score > currentBest){
+                best[currentSize] = score;
+                localStorage.setItem('memuar2048_best_sizes', JSON.stringify(best));
                 updateUI();
             }
         }
         
+        // Создание пустой доски
+        function createEmptyBoard(size){
+            return Array(size).fill().map(() => Array(size).fill(0));
+        }
+        
+        // Отрисовка
         function render(){
             const cells = gridEl.children;
-            for(let i=0; i<16; i++){
-                const row = Math.floor(i/4);
-                const col = i%4;
+            const size = currentSize;
+            for(let i = 0; i < size * size; i++){
+                const row = Math.floor(i / size);
+                const col = i % size;
                 const val = board[row][col];
                 const cell = cells[i];
                 if(val === 0){
@@ -266,10 +302,11 @@
             updateUI();
         }
         
+        // Добавление случайной плитки
         function addRandomTile(){
             const empty = [];
-            for(let i=0; i<4; i++){
-                for(let j=0; j<4; j++){
+            for(let i = 0; i < currentSize; i++){
+                for(let j = 0; j < currentSize; j++){
                     if(board[i][j] === 0) empty.push([i,j]);
                 }
             }
@@ -279,31 +316,27 @@
             return true;
         }
         
+        // Инициализация игры
         function initGame(){
-            board = [
-                [0,0,0,0],
-                [0,0,0,0],
-                [0,0,0,0],
-                [0,0,0,0]
-            ];
+            board = createEmptyBoard(currentSize);
             score = 0;
             addRandomTile();
             addRandomTile();
             render();
-            updateUI();
         }
         
+        // Обработка строки
         function operateLine(line){
             let filtered = line.filter(v => v !== 0);
             let newLine = [];
             let skip = false;
             let merged = false;
-            for(let i=0; i<filtered.length; i++){
+            for(let i = 0; i < filtered.length; i++){
                 if(skip){
                     skip = false;
                     continue;
                 }
-                if(i+1 < filtered.length && filtered[i] === filtered[i+1]){
+                if(i + 1 < filtered.length && filtered[i] === filtered[i+1]){
                     let val = filtered[i] * 2;
                     newLine.push(val);
                     score += val;
@@ -313,17 +346,18 @@
                     newLine.push(filtered[i]);
                 }
             }
-            while(newLine.length < 4) newLine.push(0);
+            while(newLine.length < currentSize) newLine.push(0);
             return { newLine, merged };
         }
         
+        // Ход
         function move(direction){
             let oldBoard = board.map(row => [...row]);
-            let newBoard = Array(4).fill().map(() => Array(4).fill(0));
+            let newBoard = createEmptyBoard(currentSize);
             let anyMerged = false;
             
             if(direction === 'left'){
-                for(let i=0; i<4; i++){
+                for(let i = 0; i < currentSize; i++){
                     let line = board[i];
                     let { newLine, merged } = operateLine(line);
                     newBoard[i] = newLine;
@@ -331,7 +365,7 @@
                 }
             }
             else if(direction === 'right'){
-                for(let i=0; i<4; i++){
+                for(let i = 0; i < currentSize; i++){
                     let line = [...board[i]].reverse();
                     let { newLine, merged } = operateLine(line);
                     newBoard[i] = newLine.reverse();
@@ -339,25 +373,27 @@
                 }
             }
             else if(direction === 'up'){
-                for(let j=0; j<4; j++){
-                    let line = [board[0][j], board[1][j], board[2][j], board[3][j]];
+                for(let j = 0; j < currentSize; j++){
+                    let line = [];
+                    for(let i = 0; i < currentSize; i++) line.push(board[i][j]);
                     let { newLine, merged } = operateLine(line);
-                    for(let i=0; i<4; i++) newBoard[i][j] = newLine[i];
+                    for(let i = 0; i < currentSize; i++) newBoard[i][j] = newLine[i];
                     if(merged) anyMerged = true;
                 }
             }
             else if(direction === 'down'){
-                for(let j=0; j<4; j++){
-                    let line = [board[3][j], board[2][j], board[1][j], board[0][j]];
+                for(let j = 0; j < currentSize; j++){
+                    let line = [];
+                    for(let i = currentSize - 1; i >= 0; i--) line.push(board[i][j]);
                     let { newLine, merged } = operateLine(line);
-                    for(let i=0; i<4; i++) newBoard[3-i][j] = newLine[i];
+                    for(let i = 0; i < currentSize; i++) newBoard[currentSize - 1 - i][j] = newLine[i];
                     if(merged) anyMerged = true;
                 }
             }
             
             let changed = false;
-            for(let i=0; i<4; i++){
-                for(let j=0; j<4; j++){
+            for(let i = 0; i < currentSize; i++){
+                for(let j = 0; j < currentSize; j++){
                     if(oldBoard[i][j] !== newBoard[i][j]) changed = true;
                 }
             }
@@ -366,30 +402,68 @@
             board = newBoard;
             addRandomTile();
             render();
-            saveBest();
+            saveBestForCurrentSize();
             
-            // Звуки
-            if (anyMerged) {
-                playMerge();
-            } else {
-                playMove();
-            }
+            if(anyMerged) playMerge();
+            else playMove();
             
-            // Проверка на 2048
-            for(let i=0;i<4;i++){
-                for(let j=0;j<4;j++){
-                    if(board[i][j] === 2048){
-                        setTimeout(() => {
-                            playWin();
-                            alert('🎉 2048! Ты победил! 🎉');
-                        }, 50);
-                        break;
-                    }
+            // Проверка на рекордную плитку
+            let maxVal = 0;
+            for(let i = 0; i < currentSize; i++){
+                for(let j = 0; j < currentSize; j++){
+                    if(board[i][j] > maxVal) maxVal = board[i][j];
                 }
+            }
+            if(maxVal >= 2048){
+                setTimeout(() => {
+                    playWin();
+                    alert(`🎉 ${maxVal}! Ты победил! 🎉`);
+                }, 50);
             }
             return true;
         }
         
+        // Сброс игры
+        function resetGame(){
+            initGame();
+            saveBestForCurrentSize();
+            playReset();
+        }
+        
+        // Смена размера поля
+        function setSize(size){
+            currentSize = size;
+            initGame();
+            saveBestForCurrentSize();
+            
+            // Обновляем активную кнопку
+            sizeBtns.forEach(btn => {
+                if(parseInt(btn.dataset.size) === size){
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Перестраиваем сетку
+            rebuildGrid();
+            render();
+        }
+        
+        function rebuildGrid(){
+            const size = currentSize;
+            gridEl.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+            gridEl.style.gap = size <= 5 ? '10px' : '6px';
+            gridEl.innerHTML = '';
+            for(let i = 0; i < size * size; i++){
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.setAttribute('data-value', '0');
+                gridEl.appendChild(tile);
+            }
+        }
+        
+        // Управление
         function handleKey(e){
             const key = e.key;
             if(key === 'ArrowLeft') move('left');
@@ -418,41 +492,31 @@
             touchStart = null;
         }
         
-        function buildGrid(){
-            gridEl.innerHTML = '';
-            for(let i=0; i<16; i++){
-                const tile = document.createElement('div');
-                tile.className = 'tile';
-                tile.setAttribute('data-value', '0');
-                gridEl.appendChild(tile);
-            }
+        // Инициализация
+        function init(){
+            rebuildGrid();
+            setSize(4);
+            
+            window.addEventListener('keydown', handleKey);
+            gridEl.addEventListener('touchstart', handleTouchStart);
+            gridEl.addEventListener('touchend', handleTouchEnd);
+            document.getElementById('reset').addEventListener('click', resetGame);
+            
+            sizeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setSize(parseInt(btn.dataset.size));
+                });
+            });
+            
+            document.body.addEventListener('touchstart', () => {
+                if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            });
+            document.body.addEventListener('click', () => {
+                if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            });
         }
         
-        function resetGame(){
-            initGame();
-            saveBest();
-            playReset();
-        }
-        
-        buildGrid();
-        initGame();
-        
-        window.addEventListener('keydown', handleKey);
-        gridEl.addEventListener('touchstart', handleTouchStart);
-        gridEl.addEventListener('touchend', handleTouchEnd);
-        document.getElementById('reset').addEventListener('click', resetGame);
-        
-        // Активация звука при первом касании (для браузеров)
-        document.body.addEventListener('touchstart', () => {
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-        });
-        document.body.addEventListener('click', () => {
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-        });
+        init();
     })();
 </script>
 </body>
