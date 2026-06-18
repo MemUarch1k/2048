@@ -36,30 +36,14 @@
         body.light .game-panel {
             background: #f7f7f7;
         }
-        body.light .title {
-            color: #333;
-        }
-        body.light .title span {
-            color: #2ecc71;
-        }
-        body.light .score-box {
-            background: #ffffff;
-        }
-        body.light .score-box .label {
-            color: #888;
-        }
-        body.light .score-box .value {
-            color: #333;
-        }
-        body.light .score-box.best .value {
-            color: #f39c12;
-        }
-        body.light .board-wrapper {
-            background: #ffffff;
-        }
-        body.light .board {
-            background: #e0e0e0;
-        }
+        body.light .title { color: #333; }
+        body.light .title span { color: #2ecc71; }
+        body.light .score-box { background: #ffffff; }
+        body.light .score-box .label { color: #888; }
+        body.light .score-box .value { color: #333; }
+        body.light .score-box.best .value { color: #f39c12; }
+        body.light .board-wrapper { background: #ffffff; }
+        body.light .board { background: #e0e0e0; }
         body.light button {
             background: #e0e0e0;
             color: #333;
@@ -78,6 +62,11 @@
             background: #2ecc71;
             color: #fff;
         }
+        body.light .combo-display {
+            background: #fff;
+            color: #333;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
 
         /* ТЁМНАЯ ТЕМА */
         body.dark {
@@ -90,30 +79,14 @@
         body.dark .game-panel {
             background: #07090e;
         }
-        body.dark .title {
-            color: #c0d0e6;
-        }
-        body.dark .title span {
-            color: #2ecc71;
-        }
-        body.dark .score-box {
-            background: #0f1117;
-        }
-        body.dark .score-box .label {
-            color: #5a6e8a;
-        }
-        body.dark .score-box .value {
-            color: #2ecc71;
-        }
-        body.dark .score-box.best .value {
-            color: #f39c12;
-        }
-        body.dark .board-wrapper {
-            background: #0f1117;
-        }
-        body.dark .board {
-            background: #0a0c12;
-        }
+        body.dark .title { color: #c0d0e6; }
+        body.dark .title span { color: #2ecc71; }
+        body.dark .score-box { background: #0f1117; }
+        body.dark .score-box .label { color: #5a6e8a; }
+        body.dark .score-box .value { color: #2ecc71; }
+        body.dark .score-box.best .value { color: #f39c12; }
+        body.dark .board-wrapper { background: #0f1117; }
+        body.dark .board { background: #0a0c12; }
         body.dark button {
             background: #1a1f2a;
             color: #c0d0e6;
@@ -131,6 +104,11 @@
         body.dark .size-btn.active {
             background: #2ecc71;
             color: #0a0c12;
+        }
+        body.dark .combo-display {
+            background: #1a1f2a;
+            color: #2ecc71;
+            box-shadow: 0 2px 15px rgba(46, 204, 113, 0.2);
         }
 
         /* ============================================================
@@ -255,12 +233,10 @@
             justify-content: center;
             font-weight: bold;
             color: #fff;
-            transition: left 0.12s ease, top 0.12s ease;
+            transition: left 0.1s ease, top 0.1s ease;
             will-change: transform, left, top;
             text-shadow: 0 2px 4px rgba(0,0,0,0.15);
             z-index: 10;
-            background: #cdc1b4;
-            color: #776e65;
         }
 
         .tile-2    { background: #eee4da; color: #776e65; }
@@ -285,11 +261,39 @@
         }
 
         @keyframes tileMerge {
-            0% { transform: scale(1.4); }
+            0% { transform: scale(1.3); }
             100% { transform: scale(1); }
         }
         .tile-merge {
-            animation: tileMerge 0.18s ease-out;
+            animation: tileMerge 0.2s ease-out;
+        }
+
+        /* ============================================================
+           КОМБО
+           ============================================================ */
+        .combo-display {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 99999;
+            padding: 16px 32px;
+            border-radius: 60px;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+            font-family: 'Segoe UI', monospace;
+        }
+        .combo-display.show {
+            opacity: 1;
+            animation: comboPulse 0.6s ease-out;
+        }
+        @keyframes comboPulse {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
         /* ============================================================
@@ -306,7 +310,7 @@
             100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
         }
         .particle-burst {
-            animation: burst 0.8s ease-out forwards;
+            animation: burst 0.7s ease-out forwards;
         }
 
         /* ============================================================
@@ -359,14 +363,7 @@
             .score-box { padding: 4px 10px; min-width: 50px; }
             button { font-size: 13px; padding: 8px 14px; min-width: 60px; }
             .size-btn { font-size: 11px; padding: 4px 12px; }
-        }
-        @media (max-width: 400px) {
-            .game-wrapper { padding: 8px; }
-            .game-panel { padding: 8px; }
-            .board-wrapper { padding: 6px; }
-            .title { font-size: 16px; }
-            .score-box .value { font-size: 15px; }
-            button { font-size: 11px; padding: 6px 10px; min-width: 50px; }
+            .combo-display { font-size: 32px; padding: 12px 24px; }
         }
     </style>
 </head>
@@ -407,20 +404,18 @@
         <!-- Управление -->
         <div class="controls">
             <button id="newGameBtn" class="btn-primary">🔄 Новая игра</button>
-            <button id="undoBtn">↩️ Отмена</button>
             <button id="themeBtn" class="theme-toggle">🌙</button>
         </div>
 
     </div>
 </div>
 
+<!-- Комбо-дисплей -->
+<div class="combo-display" id="comboDisplay"></div>
+
 <script>
     // ================================================================
-    //   ПОЛНОСТЬЮ ПЕРЕПИСАННАЯ 2048
-    //   - Светлая/тёмная тема
-    //   - Размеры поля 4x4, 5x5, 6x6, 7x7, 8x8
-    //   - Исправлен баг сброса при движении
-    //   - Плавные анимации, салюты, звуки
+    //   2048 С ПОЛНЫМИ АНИМАЦИЯМИ, САЛЮТАМИ, КОМБО И СМЕНОЙ ФОНА
     // ================================================================
 
     (function() {
@@ -438,13 +433,16 @@
         let isMoving = false;
         let tiles = [];
         let tileId = 0;
-        let history = [];
         let isDark = false;
+        let mergeCount = 0;           // счётчик слияний для смены фона
+        let comboCounter = 0;         // текущее комбо
+        let lastMergeTime = 0;
 
         const boardEl = document.getElementById('board');
         const scoreDisplay = document.getElementById('scoreDisplay');
         const bestDisplay = document.getElementById('bestDisplay');
         const themeBtn = document.getElementById('themeBtn');
+        const comboDisplay = document.getElementById('comboDisplay');
 
         // ----------------------------------------------------------------
         // 2. ЗВУКИ
@@ -486,7 +484,7 @@
         }
 
         // ----------------------------------------------------------------
-        // 3. РЕКОРД (localStorage)
+        // 3. РЕКОРД
         // ----------------------------------------------------------------
         function loadBest() {
             try {
@@ -513,7 +511,8 @@
             gameOver = false;
             won = false;
             score = 0;
-            history = [];
+            mergeCount = 0;
+            comboCounter = 0;
             scoreDisplay.textContent = '0';
             addRandomTile();
             addRandomTile();
@@ -553,16 +552,16 @@
         }
 
         // ----------------------------------------------------------------
-        // 5. ОТРИСОВКА (исправлена — плитки не сбрасываются)
+        // 5. ОТРИСОВКА С АНИМАЦИЕЙ
         // ----------------------------------------------------------------
         function render() {
             const size = boardEl.clientWidth / SIZE;
 
-            // Удаляем все плитки с доски
+            // Удаляем плитки
             boardEl.querySelectorAll('.tile').forEach(el => el.remove());
+            boardEl.querySelectorAll('.cell-bg').forEach(el => el.remove());
 
             // Фоновые ячейки
-            boardEl.querySelectorAll('.cell-bg').forEach(el => el.remove());
             for (let r = 0; r < SIZE; r++) {
                 for (let c = 0; c < SIZE; c++) {
                     const cell = document.createElement('div');
@@ -573,7 +572,7 @@
                         top: ${r * size + 4}px;
                         width: ${size - 8}px;
                         height: ${size - 8}px;
-                        background: rgba(255,255,255,0.08);
+                        background: rgba(255,255,255,0.06);
                         border-radius: 8px;
                     `;
                     boardEl.appendChild(cell);
@@ -619,19 +618,17 @@
         }
 
         // ----------------------------------------------------------------
-        // 6. ДВИЖЕНИЕ (исправлен баг сброса)
+        // 6. ДВИЖЕНИЕ С АНИМАЦИЕЙ
         // ----------------------------------------------------------------
         function move(direction) {
             if (isMoving || gameOver) return;
 
-            // Сохраняем состояние для отмены
-            history.push(JSON.stringify(grid));
-
             let moved = false;
             const newGrid = grid.map(row => [...row]);
             const merged = Array.from({ length: SIZE }, () => Array(SIZE).fill(false));
-            let mergeCount = 0;
-            let maxMerged = 0;
+            let mergeCountThisMove = 0;
+            let maxMergedValue = 0;
+            let mergedPositions = [];
 
             const rows = [...Array(SIZE).keys()];
             const cols = [...Array(SIZE).keys()];
@@ -663,8 +660,9 @@
                             nr = nextR;
                             nc = nextC;
                             merged[nr][nc] = true;
-                            mergeCount++;
-                            maxMerged = Math.max(maxMerged, val * 2);
+                            mergeCountThisMove++;
+                            maxMergedValue = Math.max(maxMergedValue, val * 2);
+                            mergedPositions.push({ r: nr, c: nc, value: val * 2 });
                             break;
                         }
                         break;
@@ -684,16 +682,46 @@
                 }
             }
 
-            if (!moved) {
-                history.pop();
-                return;
-            }
+            if (!moved) return;
 
             grid = newGrid;
             soundMove();
             updateScore();
 
-            // Проверка на 2048
+            // ---- КОМБО ----
+            if (mergeCountThisMove > 0) {
+                const now = Date.now();
+                if (now - lastMergeTime < 400) {
+                    comboCounter += mergeCountThisMove;
+                } else {
+                    comboCounter = mergeCountThisMove;
+                }
+                lastMergeTime = now;
+
+                if (comboCounter > 1) {
+                    showCombo(comboCounter);
+                }
+            } else {
+                comboCounter = 0;
+            }
+
+            // ---- САЛЮТЫ НА КАЖДОМ СЛИЯНИИ ----
+            for (const pos of mergedPositions) {
+                const rect = boardEl.getBoundingClientRect();
+                const size = boardEl.clientWidth / SIZE;
+                const cx = rect.left + pos.c * size + size / 2;
+                const cy = rect.top + pos.r * size + size / 2;
+                createMiniFirework(cx, cy, pos.value);
+            }
+
+            // ---- СЧЁТЧИК СЛИЯНИЙ ДЛЯ СМЕНЫ ФОНА ----
+            mergeCount += mergeCountThisMove;
+            if (mergeCount >= 20) {
+                mergeCount = 0;
+                changeBackgroundByMerge();
+            }
+
+            // ---- ПРОВЕРКА НА 2048 ----
             let has2048 = false;
             for (let r = 0; r < SIZE; r++) {
                 for (let c = 0; c < SIZE; c++) {
@@ -704,13 +732,28 @@
                 won = true;
                 soundWin();
                 celebrateNewNumber(2048);
+                changeBackgroundByNumber(2048);
             }
 
-            // Салют за каждую 1000
+            // ---- САЛЮТ ЗА 1000 ОЧКОВ ----
             const threshold = Math.floor(score / 1000);
             if (threshold > 0 && (!window._lastThreshold || window._lastThreshold < threshold)) {
                 window._lastThreshold = threshold;
                 celebrateScore(threshold * 1000);
+            }
+
+            // ---- САЛЮТ ДЛЯ БОЛЬШИХ ЧИСЕЛ ----
+            for (let r = 0; r < SIZE; r++) {
+                for (let c = 0; c < SIZE; c++) {
+                    const val = grid[r][c];
+                    if (val >= 4096 && val % 2 === 0) {
+                        const log = Math.log2(val);
+                        if (Number.isInteger(log) && log > 12) {
+                            celebrateNewNumber(val);
+                            changeBackgroundByNumber(val);
+                        }
+                    }
+                }
             }
 
             addRandomTile();
@@ -721,47 +764,36 @@
                 soundLose();
                 setTimeout(() => showGameOver(), 300);
             }
-
-            // Салют для больших чисел
-            for (let r = 0; r < SIZE; r++) {
-                for (let c = 0; c < SIZE; c++) {
-                    const val = grid[r][c];
-                    if (val >= 4096 && val % 2 === 0) {
-                        const log = Math.log2(val);
-                        if (Number.isInteger(log) && log > 12) {
-                            celebrateNewNumber(val);
-                        }
-                    }
-                }
-            }
         }
 
         // ----------------------------------------------------------------
-        // 7. ЭФФЕКТЫ
+        // 7. ЭФФЕКТЫ: САЛЮТЫ
         // ----------------------------------------------------------------
-        function createFireworks(cx, cy, count, color = null) {
+        function createMiniFirework(cx, cy, value) {
+            const count = Math.min(12 + Math.floor(Math.log2(value) / 2) * 2, 30);
             const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fb7', '#a66bff', '#ff9f43'];
             for (let i = 0; i < count; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle particle-burst';
-                const size = 4 + Math.random() * 8;
+                const size = 3 + Math.random() * 6;
                 const angle = Math.random() * 2 * Math.PI;
-                const dist = 60 + Math.random() * 180;
+                const dist = 30 + Math.random() * 80;
                 const tx = Math.cos(angle) * dist;
                 const ty = Math.sin(angle) * dist;
+                const color = value >= 2048 ? '#ffd700' : colors[Math.floor(Math.random() * colors.length)];
                 particle.style.cssText = `
                     left: ${cx + (Math.random() - 0.5) * 10}px;
                     top: ${cy + (Math.random() - 0.5) * 10}px;
                     width: ${size}px;
                     height: ${size}px;
-                    background: ${color || colors[Math.floor(Math.random() * colors.length)]};
-                    box-shadow: 0 0 ${size * 2}px ${color || colors[Math.floor(Math.random() * colors.length)]};
+                    background: ${color};
+                    box-shadow: 0 0 ${size * 2}px ${color};
                     --tx: ${tx}px;
                     --ty: ${ty}px;
-                    animation-duration: ${0.5 + Math.random() * 0.4}s;
+                    animation-duration: ${0.4 + Math.random() * 0.3}s;
                 `;
                 document.body.appendChild(particle);
-                setTimeout(() => particle.remove(), 1000);
+                setTimeout(() => particle.remove(), 800);
             }
         }
 
@@ -780,7 +812,30 @@
                 }
             }
             const count = Math.min(30 + Math.floor(Math.log2(value) / 2) * 4, 70);
-            createFireworks(cx, cy, count);
+            const colors = ['#ffd700', '#ff6b6b', '#4d96ff', '#6bcb77', '#ff6fb7'];
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle particle-burst';
+                const size = 4 + Math.random() * 8;
+                const angle = Math.random() * 2 * Math.PI;
+                const dist = 60 + Math.random() * 160;
+                const tx = Math.cos(angle) * dist;
+                const ty = Math.sin(angle) * dist;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.cssText = `
+                    left: ${cx + (Math.random() - 0.5) * 10}px;
+                    top: ${cy + (Math.random() - 0.5) * 10}px;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: ${color};
+                    box-shadow: 0 0 ${size * 2}px ${color};
+                    --tx: ${tx}px;
+                    --ty: ${ty}px;
+                    animation-duration: ${0.5 + Math.random() * 0.4}s;
+                `;
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
             soundCelebration();
             showFloatingText(`🎉 ${value}!`, cx, cy);
         }
@@ -790,7 +845,28 @@
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
             const count = Math.min(20 + Math.floor(val / 1000) * 4, 50);
-            createFireworks(cx, cy, count, '#ffd700');
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle particle-burst';
+                const size = 4 + Math.random() * 8;
+                const angle = Math.random() * 2 * Math.PI;
+                const dist = 50 + Math.random() * 120;
+                const tx = Math.cos(angle) * dist;
+                const ty = Math.sin(angle) * dist;
+                particle.style.cssText = `
+                    left: ${cx + (Math.random() - 0.5) * 10}px;
+                    top: ${cy + (Math.random() - 0.5) * 10}px;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: #ffd700;
+                    box-shadow: 0 0 ${size * 2}px #ffd700;
+                    --tx: ${tx}px;
+                    --ty: ${ty}px;
+                    animation-duration: ${0.5 + Math.random() * 0.4}s;
+                `;
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
             showFloatingText(`⭐ ${val} очков!`, cx, cy - 30);
             soundCelebration();
         }
@@ -824,6 +900,50 @@
             setTimeout(() => { el.remove(); style.remove(); }, 1100);
         }
 
+        // ----------------------------------------------------------------
+        // 8. КОМБО
+        // ----------------------------------------------------------------
+        let comboTimeout = null;
+
+        function showCombo(count) {
+            comboDisplay.textContent = `🔥 x${count}`;
+            comboDisplay.className = 'combo-display show';
+            clearTimeout(comboTimeout);
+            comboTimeout = setTimeout(() => {
+                comboDisplay.className = 'combo-display';
+            }, 600);
+        }
+
+        // ----------------------------------------------------------------
+        // 9. СМЕНА ФОНА
+        // ----------------------------------------------------------------
+        function changeBackgroundByNumber(value) {
+            const colors = {
+                2048: '#1a1a1a',
+                4096: '#0d1b3e',
+                8192: '#3d0a0a',
+                16384: '#2d0a3d',
+                32768: '#1a0d2d'
+            };
+            const color = colors[value] || null;
+            if (color) {
+                document.body.style.background = color;
+                document.body.style.transition = 'background 0.8s ease';
+            }
+        }
+
+        function changeBackgroundByMerge() {
+            const bg = document.body.style.background;
+            const colors = ['#1a2a1a', '#1a1a2a', '#2a1a1a', '#1a2a2a'];
+            const current = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.background = current;
+            document.body.style.transition = 'background 0.8s ease';
+            showFloatingText('✨ +20 слияний!', window.innerWidth / 2, 80);
+        }
+
+        // ----------------------------------------------------------------
+        // 10. GAME OVER
+        // ----------------------------------------------------------------
         function showGameOver() {
             const overlay = document.createElement('div');
             overlay.style.cssText = `
@@ -857,28 +977,16 @@
         }
 
         // ----------------------------------------------------------------
-        // 8. УПРАВЛЕНИЕ
+        // 11. УПРАВЛЕНИЕ
         // ----------------------------------------------------------------
         function newGame() {
             const overlay = boardEl.querySelector('div[style*="position: absolute"]');
             if (overlay) overlay.remove();
             window._lastThreshold = 0;
+            mergeCount = 0;
+            comboCounter = 0;
+            document.body.style.background = isDark ? '#0a0c12' : '#f0f0f0';
             initGrid();
-        }
-
-        function undoMove() {
-            if (history.length === 0 || isMoving) return;
-            const state = JSON.parse(history.pop());
-            grid = state;
-            score = 0;
-            for (let r = 0; r < SIZE; r++) {
-                for (let c = 0; c < SIZE; c++) {
-                    // Восстанавливаем примерный счёт (не точный, но для UX)
-                }
-            }
-            updateScore();
-            gameOver = false;
-            render();
         }
 
         function setSize(size) {
@@ -897,7 +1005,7 @@
         }
 
         // ----------------------------------------------------------------
-        // 9. ОБРАБОТЧИКИ
+        // 12. ОБРАБОТЧИКИ
         // ----------------------------------------------------------------
         let touchStartX = 0, touchStartY = 0;
 
@@ -932,7 +1040,6 @@
             }, { passive: true });
 
             document.getElementById('newGameBtn').addEventListener('click', newGame);
-            document.getElementById('undoBtn').addEventListener('click', undoMove);
             themeBtn.addEventListener('click', toggleTheme);
 
             document.querySelectorAll('.size-btn').forEach(btn => {
@@ -940,12 +1047,11 @@
                     setSize(parseInt(btn.dataset.size));
                 });
             });
-            // Активная кнопка по умолчанию
             document.querySelector('.size-btn[data-size="4"]').classList.add('active');
         }
 
         // ----------------------------------------------------------------
-        // 10. СТАРТ
+        // 13. СТАРТ
         // ----------------------------------------------------------------
         window._newGame = newGame;
 
@@ -954,7 +1060,6 @@
             loadBest();
             setupControls();
             initGrid();
-            // По умолчанию светлая тема
             document.body.className = 'light';
             themeBtn.textContent = '🌙';
         }
