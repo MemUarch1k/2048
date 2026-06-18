@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Memuar's 2048</title>
     <style>
-        /* ============================================================
-           СТИЛИ - ПОЛНАЯ ВЕРСИЯ
-           ============================================================ */
         * {
             user-select: none;
             -webkit-tap-highlight-color: transparent;
             box-sizing: border-box;
         }
-
         html, body {
             margin: 0;
             padding: 0;
@@ -24,8 +20,6 @@
             touch-action: none;
             transition: background 0.8s ease;
         }
-
-        /* СВЕТЛАЯ ТЕМА */
         body.light {
             background: #f0f0f0;
         }
@@ -83,8 +77,6 @@
             color: #333;
             box-shadow: 0 2px 20px rgba(0,0,0,0.15);
         }
-
-        /* ТЁМНАЯ ТЕМА */
         body.dark {
             background: #0a0c12;
         }
@@ -142,8 +134,6 @@
             color: #2ecc71;
             box-shadow: 0 2px 20px rgba(46,204,113,0.2);
         }
-
-        /* ЦВЕТА ПЛИТОК (СВЕТЛАЯ ТЕМА) */
         .light .tile-2    { background: #eee4da; color: #776e65; }
         .light .tile-4    { background: #ede0c8; color: #776e65; }
         .light .tile-8    { background: #f2b179; color: #f9f6f2; }
@@ -156,8 +146,6 @@
         .light .tile-1024 { background: #edc53f; color: #f9f6f2; }
         .light .tile-2048 { background: #edc22e; color: #f9f6f2; }
         .light .tile-super { background: #3c3a32; color: #f9f6f2; }
-
-        /* ЦВЕТА ПЛИТОК (ТЁМНАЯ ТЕМА) */
         .dark .tile-2    { background: #2a2a2a; color: #e0e0e0; }
         .dark .tile-4    { background: #3a3a3a; color: #e0e0e0; }
         .dark .tile-8    { background: #4a3a2a; color: #f9f6f2; }
@@ -170,8 +158,6 @@
         .dark .tile-1024 { background: #9a8a2a; color: #f9f6f2; }
         .dark .tile-2048 { background: #aa9a2a; color: #f9f6f2; }
         .dark .tile-super { background: #555; color: #f9f6f2; }
-
-        /* ОБЩИЕ СТИЛИ */
         .game-wrapper {
             border-radius: 48px;
             padding: 20px;
@@ -180,13 +166,11 @@
             margin: 12px;
             transition: background 0.3s ease;
         }
-
         .game-panel {
             border-radius: 32px;
             padding: 20px;
             transition: background 0.3s ease;
         }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -195,7 +179,6 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-
         .title {
             font-size: 24px;
             font-weight: bold;
@@ -206,12 +189,10 @@
             font-size: 12px;
             opacity: 0.6;
         }
-
         .scores {
             display: flex;
             gap: 10px;
         }
-
         .score-box {
             border-radius: 16px;
             padding: 4px 14px;
@@ -230,7 +211,6 @@
             line-height: 1.2;
             transition: color 0.3s ease;
         }
-
         .size-selector {
             display: flex;
             gap: 8px;
@@ -238,7 +218,6 @@
             margin-bottom: 12px;
             flex-wrap: wrap;
         }
-
         .size-btn {
             border: none;
             font-family: inherit;
@@ -253,7 +232,6 @@
         .size-btn:active {
             transform: translateY(2px);
         }
-
         .board-wrapper {
             position: relative;
             border-radius: 24px;
@@ -262,7 +240,6 @@
             touch-action: none;
             transition: background 0.3s ease;
         }
-
         .board {
             position: relative;
             width: 100%;
@@ -271,7 +248,6 @@
             touch-action: none;
             transition: background 0.3s ease;
         }
-
         .tile {
             position: absolute;
             border-radius: 12px;
@@ -284,7 +260,6 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.15);
             z-index: 10;
         }
-
         @keyframes tileAppear {
             0% { transform: scale(0); opacity: 0; }
             60% { transform: scale(1.08); opacity: 1; }
@@ -293,7 +268,6 @@
         .tile-appear {
             animation: tileAppear 0.2s ease-out forwards;
         }
-
         @keyframes tileMerge {
             0% { transform: scale(1.3); }
             100% { transform: scale(1); }
@@ -301,7 +275,6 @@
         .tile-merge {
             animation: tileMerge 0.2s ease-out forwards;
         }
-
         .combo-display {
             position: fixed;
             top: 50%;
@@ -321,20 +294,17 @@
             opacity: 1;
             animation: comboPulse 0.6s ease-out forwards;
         }
-
         @keyframes comboPulse {
             0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
             50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
             100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
-
         .particle {
             position: fixed;
             pointer-events: none;
             border-radius: 50%;
             z-index: 9999;
         }
-
         @keyframes burst {
             0% { transform: translate(0, 0) scale(1); opacity: 1; }
             100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
@@ -342,14 +312,12 @@
         .particle-burst {
             animation: burst 0.7s ease-out forwards;
         }
-
         .controls {
             display: flex;
             gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
         }
-
         button {
             border: none;
             font-family: inherit;
@@ -366,7 +334,6 @@
         button:active {
             transform: translateY(2px);
         }
-
         .theme-toggle {
             background: #2c3e50;
             color: #fff;
@@ -379,7 +346,6 @@
             background: #ddd;
             color: #333;
         }
-
         @media (max-width: 500px) {
             .game-wrapper { padding: 12px; border-radius: 32px; }
             .game-panel { padding: 12px; }
@@ -396,8 +362,6 @@
 
 <div class="game-wrapper">
     <div class="game-panel">
-
-        <!-- Верхняя панель -->
         <div class="header">
             <div class="title">MEMUAR<span>'S</span> <small>2048</small></div>
             <div class="scores">
@@ -411,8 +375,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Размеры поля -->
         <div class="size-selector">
             <button class="size-btn" data-size="4">4×4</button>
             <button class="size-btn" data-size="5">5×5</button>
@@ -420,42 +382,21 @@
             <button class="size-btn" data-size="7">7×7</button>
             <button class="size-btn" data-size="8">8×8</button>
         </div>
-
-        <!-- Игровое поле -->
         <div class="board-wrapper">
             <div class="board" id="board"></div>
         </div>
-
-        <!-- Управление -->
         <div class="controls">
             <button id="newGameBtn" class="btn-primary">🔄 Новая игра</button>
             <button id="themeBtn" class="theme-toggle">🌙</button>
         </div>
-
     </div>
 </div>
-
-<!-- Комбо-дисплей -->
 <div class="combo-display" id="comboDisplay"></div>
 
 <script>
-    // ================================================================
-    //  2048 — ПОЛНАЯ ВЕРСИЯ
-    //  - Комбо: слияние = +1, пустой ход заморозка, 2 пустых = сброс
-    //  - Бонус к счёту: +0.1 за комбо, макс +20 за ход
-    //  - Салюты на каждом слиянии, при комбо, за 2048+, за 1000 очков
-    //  - Смена фона при 2048, 4096, 8192 и каждых 20 слияниях
-    //  - Светлая/тёмная тема с противоположными цветами плиток
-    //  - Звуки: ход, слияние, комбо (пам-пам-ПАМ!), победа, поражение
-    //  - Плавное появление плиток
-    //  - Размеры поля: 4x4, 5x5, 6x6, 7x7, 8x8
-    //  - Рекорды в localStorage
-    // ================================================================
-
     (function() {
         'use strict';
 
-        // --- СОСТОЯНИЕ ---
         let SIZE = 4;
         let grid = [];
         let score = 0;
@@ -476,9 +417,7 @@
         const themeBtn = document.getElementById('themeBtn');
         const comboDisplay = document.getElementById('comboDisplay');
 
-        // --- ЗВУКИ ---
         let audioCtx = null;
-
         function initAudio() {
             if (audioCtx) return;
             try {
@@ -502,39 +441,26 @@
             } catch(e) {}
         }
 
-        function soundMove() {
-            playTone(300, 0.05, 0.07);
-        }
-
-        function soundMerge(val) {
-            playTone(400 + Math.log2(val) * 30, 0.12, 0.1);
-        }
-
+        function soundMove() { playTone(300, 0.05, 0.07); }
+        function soundMerge(val) { playTone(400 + Math.log2(val) * 30, 0.12, 0.1); }
         function soundCombo(c) {
-            // Три ноты с нарастанием: пам-пам-ПАМ!
             const base = 440 + Math.min(c, 10) * 20;
             playTone(base * 0.8, 0.08, 0.08);
             setTimeout(() => playTone(base, 0.08, 0.1), 70);
             setTimeout(() => playTone(base * 1.25, 0.12, 0.12), 140);
         }
-
         function soundWin() {
             playTone(523, 0.15, 0.12);
             setTimeout(() => playTone(659, 0.15, 0.12), 120);
             setTimeout(() => playTone(784, 0.25, 0.15), 240);
         }
-
-        function soundLose() {
-            playTone(300, 0.3, 0.12, 'sawtooth');
-        }
-
+        function soundLose() { playTone(300, 0.3, 0.12, 'sawtooth'); }
         function soundCelebration() {
             for (let i = 0; i < 5; i++) {
                 setTimeout(() => playTone(400 + i * 70, 0.08, 0.06), i * 70);
             }
         }
 
-        // --- РЕКОРД ---
         function loadBest() {
             try {
                 const saved = localStorage.getItem('memuars_2048_best');
@@ -551,7 +477,6 @@
             } catch(e) {}
         }
 
-        // --- ЛОГИКА ПОЛЯ ---
         function initGrid() {
             grid = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
             tiles = [];
@@ -600,10 +525,8 @@
             return true;
         }
 
-        // --- ОТРИСОВКА ---
         function render() {
             const size = boardEl.clientWidth / SIZE;
-
             boardEl.querySelectorAll('.tile').forEach(el => el.remove());
             boardEl.querySelectorAll('.cell-bg').forEach(el => el.remove());
 
@@ -661,7 +584,6 @@
             return map[val] || '#3c3a32';
         }
 
-        // --- ЭФФЕКТЫ ---
         function createFirework(cx, cy, count, color = null) {
             const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fb7', '#a66bff', '#ff9f43'];
             for (let i = 0; i < count; i++) {
@@ -779,7 +701,6 @@
             soundCelebration();
         }
 
-        // --- GAME OVER ---
         function showGameOver() {
             const overlay = document.createElement('div');
             overlay.style.cssText = `
@@ -812,7 +733,6 @@
             boardEl.appendChild(overlay);
         }
 
-        // --- ДВИЖЕНИЕ С КОМБО ---
         function move(direction) {
             if (isMoving || gameOver) return;
 
@@ -888,15 +808,19 @@
             // ---- ХОД СО СЛИЯНИЯМИ ----
             emptyMoves = 0;
 
-            // КОМБО: +1 ЗА ХОД (НЕЗАВИСИМО ОТ КОЛИЧЕСТВА СЛИЯНИЙ)
-            combo++;
-            // Бонус к счёту: +0.1 за комбо, макс +20 за ход
+            // КОМБО: +1 ЗА КАЖДОЕ СЛИЯНИЕ
+            const comboGain = mergeCountThisMove;
+            combo += comboGain;
+            
+            // Бонус к счёту: +0.1 за каждое слияние в комбо, макс +20 за ход
             const bonus = Math.min(combo * 0.1, 20);
             score += bonus;
 
-            // Показываем комбо
-            showCombo(combo);
-            if (combo > 1) soundCombo(combo);
+            // Показываем комбо, если оно есть
+            if (combo > 0) {
+                showCombo(combo);
+                if (combo > 1) soundCombo(combo);
+            }
 
             // Мини-фейерверк при комбо
             if (combo >= 2) {
@@ -911,7 +835,7 @@
             soundMove();
             updateScore();
 
-            // ---- САЛЮТЫ НА КАЖДОМ СЛИЯНИИ ----
+            // ---- САЛЮТЫ НА КАЖДОМ СЛИЯНИИ (НАД МЕСТОМ СЛИЯНИЯ) ----
             for (const pos of mergedPositions) {
                 const rect = boardEl.getBoundingClientRect();
                 const size = boardEl.clientWidth / SIZE;
@@ -972,7 +896,6 @@
             }
         }
 
-        // --- УПРАВЛЕНИЕ ---
         function newGame() {
             const overlay = boardEl.querySelector('div[style*="position: absolute"]');
             if (overlay) overlay.remove();
@@ -999,7 +922,6 @@
             themeBtn.textContent = isDark ? '☀️' : '🌙';
         }
 
-        // --- ОБРАБОТЧИКИ ---
         let touchStartX = 0, touchStartY = 0;
 
         function setupControls() {
@@ -1046,7 +968,6 @@
             document.querySelector('.size-btn[data-size="4"]').classList.add('active');
         }
 
-        // --- СТАРТ ---
         window._newGame = newGame;
 
         function start() {
