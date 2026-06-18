@@ -6,113 +6,413 @@
     <title>Memuar's 2048</title>
     <style>
         /* ============================================================
-           СТИЛИ - КОМПАКТНАЯ ВЕРСИЯ
+           СТИЛИ - ПОЛНАЯ ВЕРСИЯ
            ============================================================ */
-        *{user-select:none;-webkit-tap-highlight-color:transparent;box-sizing:border-box}
-        html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;font-family:'Segoe UI','Courier New',monospace;touch-action:none;transition:background 0.8s ease}
-        /* Светлая тема */
-        body.light{background:#f0f0f0}
-        body.light .game-wrapper{background:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.1)}
-        body.light .game-panel{background:#f7f7f7}
-        body.light .title{color:#333}
-        body.light .title span{color:#2ecc71}
-        body.light .score-box{background:#fff}
-        body.light .score-box .label{color:#888}
-        body.light .score-box .value{color:#333}
-        body.light .score-box.best .value{color:#f39c12}
-        body.light .board-wrapper{background:#fff}
-        body.light .board{background:#e0e0e0}
-        body.light button{background:#e0e0e0;color:#333;box-shadow:0 3px 0 #c0c0c0}
-        body.light .btn-primary{background:#2ecc71;color:#fff;box-shadow:0 3px 0 #1e8a4c}
-        body.light .size-btn{background:#e0e0e0;color:#333}
-        body.light .size-btn.active{background:#2ecc71;color:#fff}
-        body.light .combo-display{background:#fff;color:#333;box-shadow:0 2px 20px rgba(0,0,0,0.15)}
-        /* Тёмная тема */
-        body.dark{background:#0a0c12}
-        body.dark .game-wrapper{background:#0f1117;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
-        body.dark .game-panel{background:#07090e}
-        body.dark .title{color:#c0d0e6}
-        body.dark .title span{color:#2ecc71}
-        body.dark .score-box{background:#0f1117}
-        body.dark .score-box .label{color:#5a6e8a}
-        body.dark .score-box .value{color:#2ecc71}
-        body.dark .score-box.best .value{color:#f39c12}
-        body.dark .board-wrapper{background:#0f1117}
-        body.dark .board{background:#0a0c12}
-        body.dark button{background:#1a1f2a;color:#c0d0e6;box-shadow:0 3px 0 #0b0e12}
-        body.dark .btn-primary{background:#2ecc71;color:#0a0c12;box-shadow:0 3px 0 #1e8a4c}
-        body.dark .size-btn{background:#1a1f2a;color:#c0d0e6}
-        body.dark .size-btn.active{background:#2ecc71;color:#0a0c12}
-        body.dark .combo-display{background:#1a1f2a;color:#2ecc71;box-shadow:0 2px 20px rgba(46,204,113,0.2)}
-        /* Цвета плиток */
-        .light .tile-2{background:#eee4da;color:#776e65}
-        .light .tile-4{background:#ede0c8;color:#776e65}
-        .light .tile-8{background:#f2b179;color:#f9f6f2}
-        .light .tile-16{background:#f59563;color:#f9f6f2}
-        .light .tile-32{background:#f67c5f;color:#f9f6f2}
-        .light .tile-64{background:#f65e3b;color:#f9f6f2}
-        .light .tile-128{background:#edcf72;color:#f9f6f2}
-        .light .tile-256{background:#edcc61;color:#f9f6f2}
-        .light .tile-512{background:#edc850;color:#f9f6f2}
-        .light .tile-1024{background:#edc53f;color:#f9f6f2}
-        .light .tile-2048{background:#edc22e;color:#f9f6f2}
-        .light .tile-super{background:#3c3a32;color:#f9f6f2}
-        .dark .tile-2{background:#2a2a2a;color:#e0e0e0}
-        .dark .tile-4{background:#3a3a3a;color:#e0e0e0}
-        .dark .tile-8{background:#4a3a2a;color:#f9f6f2}
-        .dark .tile-16{background:#5a3a2a;color:#f9f6f2}
-        .dark .tile-32{background:#6a3a2a;color:#f9f6f2}
-        .dark .tile-64{background:#7a2a1a;color:#f9f6f2}
-        .dark .tile-128{background:#6a5a2a;color:#f9f6f2}
-        .dark .tile-256{background:#7a6a2a;color:#f9f6f2}
-        .dark .tile-512{background:#8a7a2a;color:#f9f6f2}
-        .dark .tile-1024{background:#9a8a2a;color:#f9f6f2}
-        .dark .tile-2048{background:#aa9a2a;color:#f9f6f2}
-        .dark .tile-super{background:#555;color:#f9f6f2}
-        /* Общие */
-        .game-wrapper{border-radius:48px;padding:20px;max-width:520px;width:100%;margin:12px;transition:background 0.3s}
-        .game-panel{border-radius:32px;padding:20px;transition:background 0.3s}
-        .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px}
-        .title{font-size:24px;font-weight:bold;letter-spacing:2px;transition:color 0.3s}
-        .title small{font-size:12px;opacity:0.6}
-        .scores{display:flex;gap:10px}
-        .score-box{border-radius:16px;padding:4px 14px;text-align:center;min-width:60px;transition:background 0.3s}
-        .score-box .label{font-size:10px;text-transform:uppercase;letter-spacing:1px}
-        .score-box .value{font-size:22px;font-weight:bold;line-height:1.2;transition:color 0.3s}
-        .size-selector{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
-        .size-btn{border:none;font-family:inherit;font-size:13px;font-weight:bold;padding:6px 16px;border-radius:40px;cursor:pointer;transition:0.1s;box-shadow:0 2px 0 rgba(0,0,0,0.1)}
-        .size-btn:active{transform:translateY(2px)}
-        .board-wrapper{position:relative;border-radius:24px;padding:10px;margin-bottom:16px;touch-action:none;transition:background 0.3s}
-        .board{position:relative;width:100%;aspect-ratio:1/1;border-radius:16px;touch-action:none;transition:background 0.3s}
-        .tile{position:absolute;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:bold;transition:left 0.12s ease,top 0.12s ease;will-change:transform,left,top;text-shadow:0 2px 4px rgba(0,0,0,0.15);z-index:10}
-        @keyframes tileAppear{0%{transform:scale(0);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1);opacity:1}}
-        .tile-appear{animation:tileAppear 0.2s ease-out forwards}
-        @keyframes tileMerge{0%{transform:scale(1.3)}100%{transform:scale(1)}}
-        .tile-merge{animation:tileMerge 0.2s ease-out forwards}
-        .combo-display{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;font-weight:bold;pointer-events:none;z-index:99999;padding:16px 32px;border-radius:60px;opacity:0;transition:opacity 0.1s;font-family:'Segoe UI',monospace}
-        .combo-display.show{opacity:1;animation:comboPulse 0.6s ease-out forwards}
-        @keyframes comboPulse{0%{transform:translate(-50%,-50%) scale(0.5);opacity:0}50%{transform:translate(-50%,-50%) scale(1.2);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
-        .particle{position:fixed;pointer-events:none;border-radius:50%;z-index:9999}
-        @keyframes burst{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0}}
-        .particle-burst{animation:burst 0.7s ease-out forwards}
-        .controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-        button{border:none;font-family:inherit;font-size:15px;font-weight:bold;padding:10px 20px;border-radius:60px;cursor:pointer;transition:0.1s;box-shadow:0 3px 0 rgba(0,0,0,0.1);flex:1;min-width:80px}
-        button:active{transform:translateY(2px)}
-        .theme-toggle{background:#2c3e50;color:#fff;flex:0.4;min-width:50px;font-size:20px;padding:10px 16px}
-        body.light .theme-toggle{background:#ddd;color:#333}
-        @media(max-width:500px){.game-wrapper{padding:12px;border-radius:32px}.game-panel{padding:12px}.title{font-size:18px}.score-box .value{font-size:18px}.score-box{padding:4px 10px;min-width:50px}button{font-size:13px;padding:8px 14px;min-width:60px}.size-btn{font-size:11px;padding:4px 12px}.combo-display{font-size:32px;padding:12px 24px}}
+        * {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', 'Courier New', monospace;
+            touch-action: none;
+            transition: background 0.8s ease;
+        }
+
+        /* СВЕТЛАЯ ТЕМА */
+        body.light {
+            background: #f0f0f0;
+        }
+        body.light .game-wrapper {
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        body.light .game-panel {
+            background: #f7f7f7;
+        }
+        body.light .title {
+            color: #333;
+        }
+        body.light .title span {
+            color: #2ecc71;
+        }
+        body.light .score-box {
+            background: #ffffff;
+        }
+        body.light .score-box .label {
+            color: #888;
+        }
+        body.light .score-box .value {
+            color: #333;
+        }
+        body.light .score-box.best .value {
+            color: #f39c12;
+        }
+        body.light .board-wrapper {
+            background: #ffffff;
+        }
+        body.light .board {
+            background: #e0e0e0;
+        }
+        body.light button {
+            background: #e0e0e0;
+            color: #333;
+            box-shadow: 0 3px 0 #c0c0c0;
+        }
+        body.light .btn-primary {
+            background: #2ecc71;
+            color: #fff;
+            box-shadow: 0 3px 0 #1e8a4c;
+        }
+        body.light .size-btn {
+            background: #e0e0e0;
+            color: #333;
+        }
+        body.light .size-btn.active {
+            background: #2ecc71;
+            color: #fff;
+        }
+        body.light .combo-display {
+            background: #fff;
+            color: #333;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        }
+
+        /* ТЁМНАЯ ТЕМА */
+        body.dark {
+            background: #0a0c12;
+        }
+        body.dark .game-wrapper {
+            background: #0f1117;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        body.dark .game-panel {
+            background: #07090e;
+        }
+        body.dark .title {
+            color: #c0d0e6;
+        }
+        body.dark .title span {
+            color: #2ecc71;
+        }
+        body.dark .score-box {
+            background: #0f1117;
+        }
+        body.dark .score-box .label {
+            color: #5a6e8a;
+        }
+        body.dark .score-box .value {
+            color: #2ecc71;
+        }
+        body.dark .score-box.best .value {
+            color: #f39c12;
+        }
+        body.dark .board-wrapper {
+            background: #0f1117;
+        }
+        body.dark .board {
+            background: #0a0c12;
+        }
+        body.dark button {
+            background: #1a1f2a;
+            color: #c0d0e6;
+            box-shadow: 0 3px 0 #0b0e12;
+        }
+        body.dark .btn-primary {
+            background: #2ecc71;
+            color: #0a0c12;
+            box-shadow: 0 3px 0 #1e8a4c;
+        }
+        body.dark .size-btn {
+            background: #1a1f2a;
+            color: #c0d0e6;
+        }
+        body.dark .size-btn.active {
+            background: #2ecc71;
+            color: #0a0c12;
+        }
+        body.dark .combo-display {
+            background: #1a1f2a;
+            color: #2ecc71;
+            box-shadow: 0 2px 20px rgba(46,204,113,0.2);
+        }
+
+        /* ЦВЕТА ПЛИТОК (СВЕТЛАЯ ТЕМА) */
+        .light .tile-2    { background: #eee4da; color: #776e65; }
+        .light .tile-4    { background: #ede0c8; color: #776e65; }
+        .light .tile-8    { background: #f2b179; color: #f9f6f2; }
+        .light .tile-16   { background: #f59563; color: #f9f6f2; }
+        .light .tile-32   { background: #f67c5f; color: #f9f6f2; }
+        .light .tile-64   { background: #f65e3b; color: #f9f6f2; }
+        .light .tile-128  { background: #edcf72; color: #f9f6f2; }
+        .light .tile-256  { background: #edcc61; color: #f9f6f2; }
+        .light .tile-512  { background: #edc850; color: #f9f6f2; }
+        .light .tile-1024 { background: #edc53f; color: #f9f6f2; }
+        .light .tile-2048 { background: #edc22e; color: #f9f6f2; }
+        .light .tile-super { background: #3c3a32; color: #f9f6f2; }
+
+        /* ЦВЕТА ПЛИТОК (ТЁМНАЯ ТЕМА) */
+        .dark .tile-2    { background: #2a2a2a; color: #e0e0e0; }
+        .dark .tile-4    { background: #3a3a3a; color: #e0e0e0; }
+        .dark .tile-8    { background: #4a3a2a; color: #f9f6f2; }
+        .dark .tile-16   { background: #5a3a2a; color: #f9f6f2; }
+        .dark .tile-32   { background: #6a3a2a; color: #f9f6f2; }
+        .dark .tile-64   { background: #7a2a1a; color: #f9f6f2; }
+        .dark .tile-128  { background: #6a5a2a; color: #f9f6f2; }
+        .dark .tile-256  { background: #7a6a2a; color: #f9f6f2; }
+        .dark .tile-512  { background: #8a7a2a; color: #f9f6f2; }
+        .dark .tile-1024 { background: #9a8a2a; color: #f9f6f2; }
+        .dark .tile-2048 { background: #aa9a2a; color: #f9f6f2; }
+        .dark .tile-super { background: #555; color: #f9f6f2; }
+
+        /* ОБЩИЕ СТИЛИ */
+        .game-wrapper {
+            border-radius: 48px;
+            padding: 20px;
+            max-width: 520px;
+            width: 100%;
+            margin: 12px;
+            transition: background 0.3s ease;
+        }
+
+        .game-panel {
+            border-radius: 32px;
+            padding: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+        .title small {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        .scores {
+            display: flex;
+            gap: 10px;
+        }
+
+        .score-box {
+            border-radius: 16px;
+            padding: 4px 14px;
+            text-align: center;
+            min-width: 60px;
+            transition: background 0.3s ease;
+        }
+        .score-box .label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .score-box .value {
+            font-size: 22px;
+            font-weight: bold;
+            line-height: 1.2;
+            transition: color 0.3s ease;
+        }
+
+        .size-selector {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .size-btn {
+            border: none;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 6px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.1s linear;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+        }
+        .size-btn:active {
+            transform: translateY(2px);
+        }
+
+        .board-wrapper {
+            position: relative;
+            border-radius: 24px;
+            padding: 10px;
+            margin-bottom: 16px;
+            touch-action: none;
+            transition: background 0.3s ease;
+        }
+
+        .board {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            touch-action: none;
+            transition: background 0.3s ease;
+        }
+
+        .tile {
+            position: absolute;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: left 0.12s ease, top 0.12s ease;
+            will-change: transform, left, top;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        @keyframes tileAppear {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.08); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .tile-appear {
+            animation: tileAppear 0.2s ease-out forwards;
+        }
+
+        @keyframes tileMerge {
+            0% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        .tile-merge {
+            animation: tileMerge 0.2s ease-out forwards;
+        }
+
+        .combo-display {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 99999;
+            padding: 16px 32px;
+            border-radius: 60px;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+            font-family: 'Segoe UI', monospace;
+        }
+        .combo-display.show {
+            opacity: 1;
+            animation: comboPulse 0.6s ease-out forwards;
+        }
+
+        @keyframes comboPulse {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: 9999;
+        }
+
+        @keyframes burst {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+        .particle-burst {
+            animation: burst 0.7s ease-out forwards;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.1s linear;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 80px;
+        }
+        button:active {
+            transform: translateY(2px);
+        }
+
+        .theme-toggle {
+            background: #2c3e50;
+            color: #fff;
+            flex: 0.4;
+            min-width: 50px;
+            font-size: 20px;
+            padding: 10px 16px;
+        }
+        body.light .theme-toggle {
+            background: #ddd;
+            color: #333;
+        }
+
+        @media (max-width: 500px) {
+            .game-wrapper { padding: 12px; border-radius: 32px; }
+            .game-panel { padding: 12px; }
+            .title { font-size: 18px; }
+            .score-box .value { font-size: 18px; }
+            .score-box { padding: 4px 10px; min-width: 50px; }
+            button { font-size: 13px; padding: 8px 14px; min-width: 60px; }
+            .size-btn { font-size: 11px; padding: 4px 12px; }
+            .combo-display { font-size: 32px; padding: 12px 24px; }
+        }
     </style>
 </head>
 <body>
+
 <div class="game-wrapper">
     <div class="game-panel">
+
+        <!-- Верхняя панель -->
         <div class="header">
             <div class="title">MEMUAR<span>'S</span> <small>2048</small></div>
             <div class="scores">
-                <div class="score-box"><div class="label">Счёт</div><div class="value" id="scoreDisplay">0</div></div>
-                <div class="score-box best"><div class="label">Рекорд</div><div class="value" id="bestDisplay">0</div></div>
+                <div class="score-box">
+                    <div class="label">Счёт</div>
+                    <div class="value" id="scoreDisplay">0</div>
+                </div>
+                <div class="score-box best">
+                    <div class="label">Рекорд</div>
+                    <div class="value" id="bestDisplay">0</div>
+                </div>
             </div>
         </div>
+
+        <!-- Размеры поля -->
         <div class="size-selector">
             <button class="size-btn" data-size="4">4×4</button>
             <button class="size-btn" data-size="5">5×5</button>
@@ -120,29 +420,42 @@
             <button class="size-btn" data-size="7">7×7</button>
             <button class="size-btn" data-size="8">8×8</button>
         </div>
+
+        <!-- Игровое поле -->
         <div class="board-wrapper">
             <div class="board" id="board"></div>
         </div>
+
+        <!-- Управление -->
         <div class="controls">
             <button id="newGameBtn" class="btn-primary">🔄 Новая игра</button>
             <button id="themeBtn" class="theme-toggle">🌙</button>
         </div>
+
     </div>
 </div>
+
+<!-- Комбо-дисплей -->
 <div class="combo-display" id="comboDisplay"></div>
 
 <script>
     // ================================================================
-    //  2048 — ФИНАЛЬНАЯ ВЕРСИЯ С КОМБО
-    //  Комбо: 1 слияние = +1 комбо.
-    //  Пустой ход = комбо не меняется.
-    //  Два пустых хода подряд = сброс до 0.
-    //  Бонус: за каждое комбо +0.1 очка (макс +20 за ход).
+    //  2048 — ПОЛНАЯ ВЕРСИЯ
+    //  - Комбо: слияние = +1, пустой ход заморозка, 2 пустых = сброс
+    //  - Бонус к счёту: +0.1 за комбо, макс +20 за ход
+    //  - Салюты на каждом слиянии, при комбо, за 2048+, за 1000 очков
+    //  - Смена фона при 2048, 4096, 8192 и каждых 20 слияниях
+    //  - Светлая/тёмная тема с противоположными цветами плиток
+    //  - Звуки: ход, слияние, комбо (пам-пам-ПАМ!), победа, поражение
+    //  - Плавное появление плиток
+    //  - Размеры поля: 4x4, 5x5, 6x6, 7x7, 8x8
+    //  - Рекорды в localStorage
     // ================================================================
 
     (function() {
         'use strict';
 
+        // --- СОСТОЯНИЕ ---
         let SIZE = 4;
         let grid = [];
         let score = 0;
@@ -155,7 +468,7 @@
         let isDark = false;
         let mergeCount = 0;
         let combo = 0;
-        let emptyMoves = 0; // счётчик пустых ходов подряд
+        let emptyMoves = 0;
 
         const boardEl = document.getElementById('board');
         const scoreDisplay = document.getElementById('scoreDisplay');
@@ -165,18 +478,22 @@
 
         // --- ЗВУКИ ---
         let audioCtx = null;
+
         function initAudio() {
             if (audioCtx) return;
-            try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            } catch(e) {}
         }
-        function playTone(freq, duration, vol = 0.12, type = 'sine') {
+
+        function playTone(freq, duration, volume = 0.12, type = 'sine') {
             if (!audioCtx) return;
             try {
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.type = type;
                 osc.frequency.value = freq;
-                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                gain.gain.setValueAtTime(volume, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
@@ -184,21 +501,33 @@
                 osc.stop(audioCtx.currentTime + duration);
             } catch(e) {}
         }
-        function soundMove() { playTone(300, 0.05, 0.07); }
-        function soundMerge(val) { playTone(400 + Math.log2(val) * 30, 0.12, 0.1); }
+
+        function soundMove() {
+            playTone(300, 0.05, 0.07);
+        }
+
+        function soundMerge(val) {
+            playTone(400 + Math.log2(val) * 30, 0.12, 0.1);
+        }
+
         function soundCombo(c) {
-            // При каждом росте комбо — три ноты с нарастанием
+            // Три ноты с нарастанием: пам-пам-ПАМ!
             const base = 440 + Math.min(c, 10) * 20;
             playTone(base * 0.8, 0.08, 0.08);
             setTimeout(() => playTone(base, 0.08, 0.1), 70);
             setTimeout(() => playTone(base * 1.25, 0.12, 0.12), 140);
         }
+
         function soundWin() {
             playTone(523, 0.15, 0.12);
             setTimeout(() => playTone(659, 0.15, 0.12), 120);
             setTimeout(() => playTone(784, 0.25, 0.15), 240);
         }
-        function soundLose() { playTone(300, 0.3, 0.12, 'sawtooth'); }
+
+        function soundLose() {
+            playTone(300, 0.3, 0.12, 'sawtooth');
+        }
+
         function soundCelebration() {
             for (let i = 0; i < 5; i++) {
                 setTimeout(() => playTone(400 + i * 70, 0.08, 0.06), i * 70);
@@ -209,12 +538,17 @@
         function loadBest() {
             try {
                 const saved = localStorage.getItem('memuars_2048_best');
-                if (saved) { bestScore = parseInt(saved, 10) || 0; }
+                if (saved) {
+                    bestScore = parseInt(saved, 10) || 0;
+                }
             } catch(e) {}
             bestDisplay.textContent = bestScore;
         }
+
         function saveBest() {
-            try { localStorage.setItem('memuars_2048_best', String(bestScore)); } catch(e) {}
+            try {
+                localStorage.setItem('memuars_2048_best', String(bestScore));
+            } catch(e) {}
         }
 
         // --- ЛОГИКА ПОЛЯ ---
@@ -269,6 +603,7 @@
         // --- ОТРИСОВКА ---
         function render() {
             const size = boardEl.clientWidth / SIZE;
+
             boardEl.querySelectorAll('.tile').forEach(el => el.remove());
             boardEl.querySelectorAll('.cell-bg').forEach(el => el.remove());
 
@@ -277,9 +612,13 @@
                     const cell = document.createElement('div');
                     cell.className = 'cell-bg';
                     cell.style.cssText = `
-                        position:absolute; left:${c*size+4}px; top:${r*size+4}px;
-                        width:${size-8}px; height:${size-8}px;
-                        background:rgba(255,255,255,0.06); border-radius:8px;
+                        position: absolute;
+                        left: ${c * size + 4}px;
+                        top: ${r * size + 4}px;
+                        width: ${size - 8}px;
+                        height: ${size - 8}px;
+                        background: rgba(255,255,255,0.06);
+                        border-radius: 8px;
                     `;
                     boardEl.appendChild(cell);
                 }
@@ -302,7 +641,9 @@
                     el.style.fontSize = val < 100 ? '1.2em' : val < 1000 ? '1em' : val < 10000 ? '0.85em' : '0.7em';
                     el.style.background = getTileBackground(val);
                     el.style.color = val <= 4 ? '#776e65' : '#f9f6f2';
-                    if (val >= 2048) el.style.boxShadow = '0 0 30px rgba(237,194,46,0.4)';
+                    if (val >= 2048) {
+                        el.style.boxShadow = '0 0 30px rgba(237, 194, 46, 0.4)';
+                    }
                     el.textContent = val;
                     boardEl.appendChild(el);
                     tiles.push(el);
@@ -322,7 +663,7 @@
 
         // --- ЭФФЕКТЫ ---
         function createFirework(cx, cy, count, color = null) {
-            const colors = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff6fb7','#a66bff','#ff9f43'];
+            const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fb7', '#a66bff', '#ff9f43'];
             for (let i = 0; i < count; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle particle-burst';
@@ -333,11 +674,15 @@
                 const ty = Math.sin(angle) * dist;
                 const c = color || colors[Math.floor(Math.random() * colors.length)];
                 p.style.cssText = `
-                    left:${cx+(Math.random()-0.5)*10}px; top:${cy+(Math.random()-0.5)*10}px;
-                    width:${size}px; height:${size}px;
-                    background:${c}; box-shadow:0 0 ${size*2}px ${c};
-                    --tx:${tx}px; --ty:${ty}px;
-                    animation-duration:${0.4+Math.random()*0.3}s;
+                    left: ${cx + (Math.random() - 0.5) * 10}px;
+                    top: ${cy + (Math.random() - 0.5) * 10}px;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: ${c};
+                    box-shadow: 0 0 ${size * 2}px ${c};
+                    --tx: ${tx}px;
+                    --ty: ${ty}px;
+                    animation-duration: ${0.4 + Math.random() * 0.3}s;
                 `;
                 document.body.appendChild(p);
                 setTimeout(() => p.remove(), 800);
@@ -356,21 +701,26 @@
         function showFloatingText(text, x, y) {
             const el = document.createElement('div');
             el.style.cssText = `
-                position:fixed; left:${x}px; top:${y}px;
-                transform:translate(-50%,-50%);
-                color:#fff; font-size:22px; font-weight:bold;
-                text-shadow:0 0 20px rgba(0,0,0,0.5);
-                pointer-events:none; z-index:99999;
-                animation:floatUp 1s ease-out forwards;
-                font-family:'Segoe UI',monospace;
+                position: fixed;
+                left: ${x}px;
+                top: ${y}px;
+                transform: translate(-50%, -50%);
+                color: #fff;
+                font-size: 22px;
+                font-weight: bold;
+                text-shadow: 0 0 20px rgba(0,0,0,0.5);
+                pointer-events: none;
+                z-index: 99999;
+                animation: floatUp 1s ease-out forwards;
+                font-family: 'Segoe UI', monospace;
             `;
             el.textContent = text;
             document.body.appendChild(el);
             const style = document.createElement('style');
             style.textContent = `
                 @keyframes floatUp {
-                    0%{opacity:1;transform:translate(-50%,-50%) scale(0.8)}
-                    100%{opacity:0;transform:translate(-50%,-120px) scale(1.2)}
+                    0% { opacity: 1; transform: translate(-50%, -50%) scale(0.8); }
+                    100% { opacity: 0; transform: translate(-50%, -120px) scale(1.2); }
                 }
             `;
             document.head.appendChild(style);
@@ -378,7 +728,13 @@
         }
 
         function changeBackgroundByNumber(value) {
-            const colors = { 2048:'#1a1a1a', 4096:'#0d1b3e', 8192:'#3d0a0a', 16384:'#2d0a3d', 32768:'#1a0d2d' };
+            const colors = {
+                2048: '#1a1a1a',
+                4096: '#0d1b3e',
+                8192: '#3d0a0a',
+                16384: '#2d0a3d',
+                32768: '#1a0d2d'
+            };
             const color = colors[value] || null;
             if (color) {
                 document.body.style.background = color;
@@ -387,7 +743,7 @@
         }
 
         function changeBackgroundByMerge() {
-            const colors = ['#1a2a1a','#1a1a2a','#2a1a1a','#1a2a2a'];
+            const colors = ['#1a2a1a', '#1a1a2a', '#2a1a1a', '#1a2a2a'];
             document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
             document.body.style.transition = 'background 0.8s ease';
             showFloatingText('✨ +20 слияний!', window.innerWidth / 2, 80);
@@ -396,17 +752,18 @@
         function celebrateNewNumber(value) {
             const rect = boardEl.getBoundingClientRect();
             const size = boardEl.clientWidth / SIZE;
-            let cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+            let cx = rect.left + rect.width / 2;
+            let cy = rect.top + rect.height / 2;
             for (let r = 0; r < SIZE; r++) {
                 for (let c = 0; c < SIZE; c++) {
                     if (grid[r][c] === value) {
-                        cx = rect.left + c*size + size/2;
-                        cy = rect.top + r*size + size/2;
+                        cx = rect.left + c * size + size / 2;
+                        cy = rect.top + r * size + size / 2;
                         break;
                     }
                 }
             }
-            const count = Math.min(30 + Math.floor(Math.log2(value)/2)*4, 70);
+            const count = Math.min(30 + Math.floor(Math.log2(value) / 2) * 4, 70);
             createFirework(cx, cy, count);
             soundCelebration();
             showFloatingText(`🎉 ${value}!`, cx, cy);
@@ -414,11 +771,11 @@
 
         function celebrateScore(val) {
             const rect = boardEl.getBoundingClientRect();
-            const cx = rect.left + rect.width/2;
-            const cy = rect.top + rect.height/2;
-            const count = Math.min(20 + Math.floor(val/1000)*4, 50);
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const count = Math.min(20 + Math.floor(val / 1000) * 4, 50);
             createFirework(cx, cy, count, '#ffd700');
-            showFloatingText(`⭐ ${val} очков!`, cx, cy-30);
+            showFloatingText(`⭐ ${val} очков!`, cx, cy - 30);
             soundCelebration();
         }
 
@@ -426,16 +783,30 @@
         function showGameOver() {
             const overlay = document.createElement('div');
             overlay.style.cssText = `
-                position:absolute; inset:0; background:rgba(0,0,0,0.5);
-                border-radius:16px; display:flex; flex-direction:column;
-                align-items:center; justify-content:center; z-index:1000; backdrop-filter:blur(4px);
+                position: absolute;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                border-radius: 16px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                backdrop-filter: blur(4px);
             `;
             overlay.innerHTML = `
-                <div style="font-size:28px;color:#fff;font-weight:bold;margin-bottom:8px;">💀 Игра окончена</div>
-                <div style="font-size:16px;color:#ccc;margin-bottom:16px;">Счёт: ${Math.floor(score)}</div>
+                <div style="font-size: 28px; color: #fff; font-weight: bold; margin-bottom: 8px;">💀 Игра окончена</div>
+                <div style="font-size: 16px; color: #ccc; margin-bottom: 16px;">Счёт: ${Math.floor(score)}</div>
                 <button onclick="this.closest('div').remove(); window._newGame();" style="
-                    background:#2ecc71; border:none; color:#fff; font-family:inherit;
-                    font-size:16px; font-weight:bold; padding:10px 28px; border-radius:60px; cursor:pointer;
+                    background: #2ecc71;
+                    border: none;
+                    color: #fff;
+                    font-family: inherit;
+                    font-size: 16px;
+                    font-weight: bold;
+                    padding: 10px 28px;
+                    border-radius: 60px;
+                    cursor: pointer;
                 ">🔄 Играть снова</button>
             `;
             boardEl.appendChild(overlay);
@@ -504,8 +875,8 @@
                 }
             }
 
+            // ---- ПУСТОЙ ХОД ----
             if (!moved) {
-                // Пустой ход
                 emptyMoves++;
                 if (emptyMoves >= 2) {
                     combo = 0;
@@ -514,19 +885,20 @@
                 return;
             }
 
-            // ==== БЫЛ ХОД СО СЛИЯНИЯМИ ====
+            // ---- ХОД СО СЛИЯНИЯМИ ----
             emptyMoves = 0;
 
-            // ---- КОМБО: слияние = +1 ----
+            // КОМБО: +1 ЗА ХОД (НЕЗАВИСИМО ОТ КОЛИЧЕСТВА СЛИЯНИЙ)
             combo++;
-            // Бонус к счёту: за каждое комбо +0.1, но не больше +20 за ход
+            // Бонус к счёту: +0.1 за комбо, макс +20 за ход
             const bonus = Math.min(combo * 0.1, 20);
             score += bonus;
+
             // Показываем комбо
             showCombo(combo);
-            // Звук комбо (если комбо > 1)
             if (combo > 1) soundCombo(combo);
-            // Мини-фейерверк для комбо
+
+            // Мини-фейерверк при комбо
             if (combo >= 2) {
                 const rect = boardEl.getBoundingClientRect();
                 const cx = rect.left + rect.width / 2;
@@ -535,7 +907,6 @@
                 createFirework(cx, cy, count, '#ffd700');
             }
 
-            // ---- ОБНОВЛЯЕМ СЧЁТ ----
             grid = newGrid;
             soundMove();
             updateScore();
@@ -633,9 +1004,15 @@
 
         function setupControls() {
             document.addEventListener('keydown', (e) => {
-                const map = { 'ArrowUp':'up','ArrowDown':'down','ArrowLeft':'left','ArrowRight':'right' };
+                const map = {
+                    'ArrowUp': 'up', 'ArrowDown': 'down',
+                    'ArrowLeft': 'left', 'ArrowRight': 'right'
+                };
                 const dir = map[e.key];
-                if (dir) { e.preventDefault(); move(dir); }
+                if (dir) {
+                    e.preventDefault();
+                    move(dir);
+                }
             });
 
             boardEl.addEventListener('touchstart', (e) => {
