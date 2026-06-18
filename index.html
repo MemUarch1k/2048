@@ -38,7 +38,7 @@
         body.light .score-box .value { color: #333; }
         body.light .score-box.best .value { color: #f39c12; }
         body.light .board-wrapper { background: #ffffff; }
-        body.light .board { background: #e0e0e0; }
+        body.light .board { background: #e8e8e8; }
         body.light button {
             background: #e0e0e0;
             color: #333;
@@ -58,80 +58,81 @@
             color: #fff;
         }
         body.light .combo-display {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             color: #333;
             box-shadow: 0 2px 12px rgba(0,0,0,0.1);
             border: 1px solid #ddd;
         }
 
-        /* ---- ТЁМНАЯ ТЕМА ---- */
+        /* ---- ТЁМНАЯ ТЕМА (СВЕТЛЕЕ И ЯРЧЕ) ---- */
         body.dark {
-            background: #0a0c12;
+            background: #1a1e2e;
         }
         body.dark .game-wrapper {
-            background: #0f1117;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: #222838;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
-        body.dark .game-panel { background: #07090e; }
-        body.dark .title { color: #c0d0e6; }
-        body.dark .title span { color: #2ecc71; }
-        body.dark .score-box { background: #0f1117; }
-        body.dark .score-box .label { color: #5a6e8a; }
-        body.dark .score-box .value { color: #2ecc71; }
-        body.dark .score-box.best .value { color: #f39c12; }
-        body.dark .board-wrapper { background: #0f1117; }
-        body.dark .board { background: #0a0c12; }
+        body.dark .game-panel { background: #1a1e2e; }
+        body.dark .title { color: #d0d8e8; }
+        body.dark .title span { color: #4dd0a0; }
+        body.dark .score-box { background: #2a3040; }
+        body.dark .score-box .label { color: #8a9aaa; }
+        body.dark .score-box .value { color: #4dd0a0; }
+        body.dark .score-box.best .value { color: #f5b342; }
+        body.dark .board-wrapper { background: #2a3040; }
+        body.dark .board { background: #1e2434; }
         body.dark button {
-            background: #1a1f2a;
-            color: #c0d0e6;
-            box-shadow: 0 3px 0 #0b0e12;
+            background: #2a3040;
+            color: #d0d8e8;
+            box-shadow: 0 3px 0 #161a28;
         }
         body.dark .btn-primary {
-            background: #2ecc71;
+            background: #4dd0a0;
             color: #0a0c12;
-            box-shadow: 0 3px 0 #1e8a4c;
+            box-shadow: 0 3px 0 #2e8a6a;
         }
         body.dark .size-btn {
-            background: #1a1f2a;
-            color: #c0d0e6;
+            background: #2a3040;
+            color: #d0d8e8;
         }
         body.dark .size-btn.active {
-            background: #2ecc71;
+            background: #4dd0a0;
             color: #0a0c12;
         }
         body.dark .combo-display {
-            background: rgba(26, 31, 42, 0.85);
-            color: #2ecc71;
-            box-shadow: 0 2px 12px rgba(46,204,113,0.2);
-            border: 1px solid #2ecc71;
+            background: rgba(42, 48, 64, 0.9);
+            color: #4dd0a0;
+            box-shadow: 0 2px 12px rgba(77, 208, 160, 0.25);
+            border: 1px solid #4dd0a0;
         }
 
-        /* ---- ЦВЕТА ПЛИТОК ---- */
-        .light .tile-2    { background: #eee4da; color: #776e65; }
-        .light .tile-4    { background: #ede0c8; color: #776e65; }
-        .light .tile-8    { background: #f2b179; color: #f9f6f2; }
-        .light .tile-16   { background: #f59563; color: #f9f6f2; }
-        .light .tile-32   { background: #f67c5f; color: #f9f6f2; }
-        .light .tile-64   { background: #f65e3b; color: #f9f6f2; }
-        .light .tile-128  { background: #edcf72; color: #f9f6f2; }
-        .light .tile-256  { background: #edcc61; color: #f9f6f2; }
-        .light .tile-512  { background: #edc850; color: #f9f6f2; }
-        .light .tile-1024 { background: #edc53f; color: #f9f6f2; }
-        .light .tile-2048 { background: #edc22e; color: #f9f6f2; }
-        .light .tile-super { background: #3c3a32; color: #f9f6f2; }
+        /* ---- НОВЫЕ ЦВЕТА ПЛИТОК (ТЁМНАЯ ТЕМА — СВЕТЛЕЕ) ---- */
+        body.dark .tile-2    { background: #d4c9b8; color: #3d3d3d; }
+        body.dark .tile-4    { background: #e8d4b0; color: #3d3d3d; }
+        body.dark .tile-8    { background: #f5b27a; color: #fff; }
+        body.dark .tile-16   { background: #f59563; color: #fff; }
+        body.dark .tile-32   { background: #f57c5f; color: #fff; }
+        body.dark .tile-64   { background: #e85a3a; color: #fff; }
+        body.dark .tile-128  { background: #edcf72; color: #fff; }
+        body.dark .tile-256  { background: #edc850; color: #fff; }
+        body.dark .tile-512  { background: #edc22e; color: #fff; }
+        body.dark .tile-1024 { background: #f5b342; color: #fff; }
+        body.dark .tile-2048 { background: #f5a623; color: #fff; box-shadow: 0 0 30px rgba(245, 166, 35, 0.5); }
+        body.dark .tile-super { background: #5a6a7a; color: #fff; }
 
-        .dark .tile-2    { background: #2a2a2a; color: #e0e0e0; }
-        .dark .tile-4    { background: #3a3a3a; color: #e0e0e0; }
-        .dark .tile-8    { background: #4a3a2a; color: #f9f6f2; }
-        .dark .tile-16   { background: #5a3a2a; color: #f9f6f2; }
-        .dark .tile-32   { background: #6a3a2a; color: #f9f6f2; }
-        .dark .tile-64   { background: #7a2a1a; color: #f9f6f2; }
-        .dark .tile-128  { background: #6a5a2a; color: #f9f6f2; }
-        .dark .tile-256  { background: #7a6a2a; color: #f9f6f2; }
-        .dark .tile-512  { background: #8a7a2a; color: #f9f6f2; }
-        .dark .tile-1024 { background: #9a8a2a; color: #f9f6f2; }
-        .dark .tile-2048 { background: #aa9a2a; color: #f9f6f2; }
-        .dark .tile-super { background: #555; color: #f9f6f2; }
+        /* ---- СВЕТЛАЯ ТЕМА (оставляем классику) ---- */
+        body.light .tile-2    { background: #eee4da; color: #776e65; }
+        body.light .tile-4    { background: #ede0c8; color: #776e65; }
+        body.light .tile-8    { background: #f2b179; color: #f9f6f2; }
+        body.light .tile-16   { background: #f59563; color: #f9f6f2; }
+        body.light .tile-32   { background: #f67c5f; color: #f9f6f2; }
+        body.light .tile-64   { background: #f65e3b; color: #f9f6f2; }
+        body.light .tile-128  { background: #edcf72; color: #f9f6f2; }
+        body.light .tile-256  { background: #edcc61; color: #f9f6f2; }
+        body.light .tile-512  { background: #edc850; color: #f9f6f2; }
+        body.light .tile-1024 { background: #edc53f; color: #f9f6f2; }
+        body.light .tile-2048 { background: #edc22e; color: #f9f6f2; }
+        body.light .tile-super { background: #3c3a32; color: #f9f6f2; }
 
         /* ---- ОСНОВНЫЕ СТИЛИ ---- */
         .game-wrapper {
@@ -232,7 +233,6 @@
             transition: background 0.4s ease;
         }
 
-        /* ---- ПЛИТКИ ---- */
         .tile {
             position: absolute;
             border-radius: 12px;
@@ -259,7 +259,6 @@
         }
         .tile-merge { animation: tileMerge 0.2s ease-out forwards; }
 
-        /* ---- КОМБО (маленькая плашка в углу) ---- */
         .combo-display {
             position: absolute;
             top: 12px;
@@ -281,7 +280,6 @@
             opacity: 1;
             transform: scale(1);
         }
-        /* Анимация пульсации (лёгкая) */
         @keyframes comboPulseSmall {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -291,7 +289,6 @@
             animation: comboPulseSmall 0.3s ease-out;
         }
 
-        /* ---- ЧАСТИЦЫ ---- */
         .particle {
             position: fixed;
             pointer-events: none;
@@ -304,7 +301,6 @@
         }
         .particle-burst { animation: burst 0.7s ease-out forwards; }
 
-        /* ---- КНОПКИ ---- */
         .controls {
             display: flex;
             gap: 10px;
@@ -339,7 +335,6 @@
             color: #333;
         }
 
-        /* ---- АДАПТИВ ---- */
         @media (max-width: 500px) {
             .game-wrapper { padding: 12px; border-radius: 32px; }
             .game-panel { padding: 12px; }
@@ -448,7 +443,6 @@
             }
         }
 
-        // ---- РЕКОРД ----
         function loadBest() {
             try {
                 const saved = localStorage.getItem('memuars_2048_best');
@@ -465,7 +459,6 @@
             } catch(e) {}
         }
 
-        // ---- ИНИЦИАЛИЗАЦИЯ ----
         function initGrid() {
             grid = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
             tiles = [];
@@ -514,12 +507,10 @@
             return true;
         }
 
-        // ---- ОТРИСОВКА ----
         function render() {
             const size = boardEl.clientWidth / SIZE;
             boardEl.innerHTML = '';
 
-            // Фон
             for (let r = 0; r < SIZE; r++) {
                 for (let c = 0; c < SIZE; c++) {
                     const cell = document.createElement('div');
@@ -537,7 +528,6 @@
                 }
             }
 
-            // Плитки
             tiles = [];
             for (let r = 0; r < SIZE; r++) {
                 for (let c = 0; c < SIZE; c++) {
@@ -554,9 +544,9 @@
                     el.style.left = (c * size + 4) + 'px';
                     el.style.top = (r * size + 4) + 'px';
                     el.style.background = getTileBackground(val);
-                    el.style.color = val <= 4 ? '#776e65' : '#f9f6f2';
+                    el.style.color = val <= 4 ? '#3d3d3d' : '#fff';
                     if (val >= 2048) {
-                        el.style.boxShadow = '0 0 30px rgba(237, 194, 46, 0.4)';
+                        el.style.boxShadow = '0 0 30px rgba(245, 166, 35, 0.5)';
                     }
                     el.style.fontSize = val < 100 ? '1.2em' : val < 1000 ? '1em' : val < 10000 ? '0.85em' : '0.7em';
                     el.textContent = val;
@@ -568,15 +558,14 @@
 
         function getTileBackground(val) {
             const map = {
-                2: '#eee4da', 4: '#ede0c8', 8: '#f2b179',
-                16: '#f59563', 32: '#f67c5f', 64: '#f65e3b',
-                128: '#edcf72', 256: '#edcc61', 512: '#edc850',
-                1024: '#edc53f', 2048: '#edc22e'
+                2: '#d4c9b8', 4: '#e8d4b0', 8: '#f5b27a',
+                16: '#f59563', 32: '#f57c5f', 64: '#e85a3a',
+                128: '#edcf72', 256: '#edc850', 512: '#edc22e',
+                1024: '#f5b342', 2048: '#f5a623'
             };
-            return map[val] || '#3c3a32';
+            return map[val] || '#5a6a7a';
         }
 
-        // ---- ЭФФЕКТЫ ----
         function createFirework(cx, cy, count, color = null) {
             const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fb7', '#a66bff', '#ff9f43'];
             for (let i = 0; i < count; i++) {
@@ -604,7 +593,6 @@
             }
         }
 
-        // ---- КОМБО (новая версия, маленькая плашка) ----
         let comboTimeout = null;
 
         function showCombo(count) {
@@ -615,7 +603,6 @@
             comboDisplay.textContent = `🔥 x${count}`;
             comboDisplay.classList.add('show');
             comboDisplay.classList.remove('pulse');
-            // Триггерим перерисовку для анимации
             void comboDisplay.offsetWidth;
             comboDisplay.classList.add('pulse');
             
@@ -654,33 +641,31 @@
             setTimeout(() => { el.remove(); style.remove(); }, 1100);
         }
 
-        // ---- СМЕНА ФОНА (и у поля, и у всего экрана) ----
         function changeBackgroundByNumber(value) {
             const colors = {
-                2048: '#1a1a1a',
-                4096: '#0d1b3e',
-                8192: '#3d0a0a',
-                16384: '#2d0a3d',
-                32768: '#1a0d2d'
+                2048: '#2a2a3a',
+                4096: '#1a2a4a',
+                8192: '#4a1a2a',
+                16384: '#3a1a4a',
+                32768: '#1a3a3a'
             };
             const color = colors[value] || null;
             if (color) {
                 document.body.style.background = color;
                 boardWrapper.style.background = color;
-                boardWrapper.style.boxShadow = `0 0 40px ${color}40`;
+                boardWrapper.style.boxShadow = `0 0 40px ${color}80`;
             }
         }
 
         function changeBackgroundByMerge() {
-            const colors = ['#1a2a1a', '#1a1a2a', '#2a1a1a', '#1a2a2a'];
+            const colors = ['#1a2a2a', '#2a1a2a', '#2a2a1a', '#1a2a3a'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             document.body.style.background = color;
             boardWrapper.style.background = color;
-            boardWrapper.style.boxShadow = `0 0 40px ${color}40`;
+            boardWrapper.style.boxShadow = `0 0 40px ${color}80`;
             showFloatingText('✨ +20 слияний!', window.innerWidth / 2, 80);
         }
 
-        // ---- ПРАЗДНИКИ ----
         function celebrateNewNumber(value) {
             const rect = boardEl.getBoundingClientRect();
             const size = boardEl.clientWidth / SIZE;
@@ -706,12 +691,11 @@
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
             const count = Math.min(20 + Math.floor(val / 1000) * 4, 50);
-            createFirework(cx, cy, count, '#ffd700');
+            createFirework(cx, cy, count, '#ffd93d');
             showFloatingText(`⭐ ${val} очков!`, cx, cy - 30);
             soundCelebration();
         }
 
-        // ---- GAME OVER ----
         function showGameOver() {
             const overlay = document.createElement('div');
             overlay.style.cssText = `
@@ -730,9 +714,9 @@
                 <div style="font-size: 28px; color: #fff; font-weight: bold; margin-bottom: 8px;">💀 Игра окончена</div>
                 <div style="font-size: 16px; color: #ccc; margin-bottom: 16px;">Счёт: ${Math.floor(score)}</div>
                 <button onclick="this.closest('div').remove(); window._newGame();" style="
-                    background: #2ecc71;
+                    background: #4dd0a0;
                     border: none;
-                    color: #fff;
+                    color: #0a0c12;
                     font-family: inherit;
                     font-size: 16px;
                     font-weight: bold;
@@ -744,7 +728,6 @@
             boardEl.appendChild(overlay);
         }
 
-        // ---- ДВИЖЕНИЕ ----
         function move(direction) {
             if (isMoving || gameOver) return;
 
@@ -805,7 +788,6 @@
                 }
             }
 
-            // Пустой ход
             if (!moved) {
                 emptyMoves++;
                 if (emptyMoves >= 2) {
@@ -818,7 +800,6 @@
 
             emptyMoves = 0;
 
-            // КОМБО
             combo += mergeCountThisMove;
             const bonus = Math.min(combo * 0.1, 20);
             score += bonus;
@@ -830,7 +811,6 @@
             soundMove();
             updateScore();
 
-            // Салюты над плитками
             for (const pos of mergedPositions) {
                 const rect = boardEl.getBoundingClientRect();
                 const size = boardEl.clientWidth / SIZE;
@@ -839,14 +819,12 @@
                 createFirework(cx, cy, 12, '#ff6b6b');
             }
 
-            // Счётчик слияний
             mergeCount += mergeCountThisMove;
             if (mergeCount >= 20) {
                 mergeCount = 0;
                 changeBackgroundByMerge();
             }
 
-            // Проверка на 2048
             let has2048 = false;
             for (let r = 0; r < SIZE; r++) {
                 for (let c = 0; c < SIZE; c++) {
@@ -860,14 +838,12 @@
                 changeBackgroundByNumber(2048);
             }
 
-            // Салют за 1000 очков
             const threshold = Math.floor(score / 1000);
             if (threshold > 0 && (!window._lastThreshold || window._lastThreshold < threshold)) {
                 window._lastThreshold = threshold;
                 celebrateScore(threshold * 1000);
             }
 
-            // Большие числа
             for (let r = 0; r < SIZE; r++) {
                 for (let c = 0; c < SIZE; c++) {
                     const val = grid[r][c];
@@ -891,7 +867,6 @@
             }
         }
 
-        // ---- УПРАВЛЕНИЕ ----
         function newGame() {
             const overlay = boardEl.querySelector('div[style*="position: absolute"]');
             if (overlay) overlay.remove();
@@ -899,9 +874,9 @@
             mergeCount = 0;
             combo = 0;
             emptyMoves = 0;
-            const defaultBg = isDark ? '#0a0c12' : '#f0f0f0';
+            const defaultBg = isDark ? '#1a1e2e' : '#f0f0f0';
             document.body.style.background = defaultBg;
-            boardWrapper.style.background = isDark ? '#0f1117' : '#ffffff';
+            boardWrapper.style.background = isDark ? '#2a3040' : '#ffffff';
             boardWrapper.style.boxShadow = 'none';
             initGrid();
         }
@@ -919,13 +894,11 @@
             isDark = !isDark;
             document.body.className = isDark ? 'dark' : 'light';
             themeBtn.textContent = isDark ? '☀️' : '🌙';
-            // Обновляем фон поля
-            const bg = isDark ? '#0f1117' : '#ffffff';
+            const bg = isDark ? '#2a3040' : '#ffffff';
             boardWrapper.style.background = bg;
             boardWrapper.style.boxShadow = 'none';
         }
 
-        // ---- ОБРАБОТЧИКИ ----
         let touchStartX = 0, touchStartY = 0;
 
         function setupControls() {
@@ -974,15 +947,14 @@
 
         window._newGame = newGame;
 
-        // ---- СТАРТ ----
         function start() {
             initAudio();
             loadBest();
             setupControls();
             initGrid();
-            document.body.className = 'light';
-            themeBtn.textContent = '🌙';
-            boardWrapper.style.background = '#ffffff';
+            document.body.className = 'dark';
+            themeBtn.textContent = '☀️';
+            boardWrapper.style.background = '#2a3040';
         }
 
         if (document.readyState === 'loading') {
