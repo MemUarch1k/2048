@@ -254,14 +254,9 @@
             return true;
         }
 
-        function getTileElement(r, c) {
-            return tiles.find(el => parseInt(el.dataset.row) === r && parseInt(el.dataset.col) === c);
-        }
-
-        function render(animate = false) {
+        function render() {
             const size = boardEl.clientWidth / SIZE;
-
-            // Удаляем только фоновые ячейки, плитки оставляем
+            // Очищаем только фон
             boardEl.querySelectorAll('.cell-bg').forEach(el => el.remove());
 
             // Создаём фон
@@ -282,26 +277,52 @@
                 }
             }
 
-            // Обновляем плитки
-            const existingTiles = tiles;
-            const newTiles = [];
+            // Удаляем плитки, которых нет в сетке, обновляем остальные
+            const toRemove = [];
+            for (let el of tiles) {
+                const r = parseInt(el.dataset.row);
+                const c = parseInt(el.dataset.col);
+                if (!grid[r] || grid[r][c] === 0 || parseInt(el.dataset.value) !== grid[r][c]) {
+                    toRemove.push(el);
+                } else {
+                    // Обновляем позицию и размер
+                    el.style.left = (c * size + 4) + 'px';
+                    el.style.top = (r * size + 4) + 'px';
+                    el.style.width = size - 8 + 'px';
+                    el.style.height = size - 8 + 'px';
+                    el.style.fontSize = grid[r][c] < 100 ? '1.2em' : grid[r][c] < 1000 ? '1em' : grid[r][c] < 10000 ? '0.85em' : '0.7em';
+                    el.style.background = getTileBackground(grid[r][c]);
+                    el.style.color = grid[r][c] <= 4 ? '#776e65' : '#f9f6f2';
+                    if (grid[r][c] >= 2048) {
+                        el.style.boxShadow = '0 0 30px rgba(237, 194, 46, 0.4)';
+                    }
+                    el.textContent = grid[r][c];
+                    el.dataset.value = grid[r][c];
+                }
+            }
+            for (let el of toRemove) {
+                el.remove();
+                const idx = tiles.indexOf(el);
+                if (idx !== -1) tiles.splice(idx, 1);
+            }
 
+            // Добавляем новые плитки (появляются с анимацией)
             for (let r = 0; r < SIZE; r++) {
                 for (let c = 0; c < SIZE; c++) {
                     const val = grid[r][c];
                     if (val === 0) continue;
-
-                    let el = existingTiles.find(t => parseInt(t.dataset.row) === r && parseInt(t.dataset.col) === c && parseInt(t.dataset.value) === val);
-                    if (!el) {
-                        // Новая плитка
-                        el = document.createElement('div');
-                        el.className = 'tile';
+                    const exists = tiles.some(el => parseInt(el.dataset.row) === r && parseInt(el.dataset.col) === c);
+                    if (!exists) {
+                        const el = document.createElement('div');
+                        el.className = 'tile tile-appear';
                         el.dataset.row = r;
                         el.dataset.col = c;
                         el.dataset.value = val;
                         el.dataset.id = tileId++;
                         el.style.width = size - 8 + 'px';
                         el.style.height = size - 8 + 'px';
+                        el.style.left = (c * size + 4) + 'px';
+                        el.style.top = (r * size + 4) + 'px';
                         el.style.background = getTileBackground(val);
                         el.style.color = val <= 4 ? '#776e65' : '#f9f6f2';
                         if (val >= 2048) {
@@ -310,35 +331,10 @@
                         el.style.fontSize = val < 100 ? '1.2em' : val < 1000 ? '1em' : val < 10000 ? '0.85em' : '0.7em';
                         el.textContent = val;
                         boardEl.appendChild(el);
-                        if (animate) {
-                            el.classList.add('tile-appear');
-                        }
-                    } else {
-                        // Обновляем позицию существующей плитки
-                        el.style.left = (c * size + 4) + 'px';
-                        el.style.top = (r * size + 4) + 'px';
-                        el.style.width = size - 8 + 'px';
-                        el.style.height = size - 8 + 'px';
-                        el.style.fontSize = val < 100 ? '1.2em' : val < 1000 ? '1em' : val < 10000 ? '0.85em' : '0.7em';
-                        el.style.background = getTileBackground(val);
-                        el.style.color = val <= 4 ? '#776e65' : '#f9f6f2';
-                        if (val >= 2048) {
-                            el.style.boxShadow = '0 0 30px rgba(237, 194, 46, 0.4)';
-                        }
-                        el.textContent = val;
-                        el.dataset.value = val;
+                        tiles.push(el);
                     }
-                    newTiles.push(el);
                 }
             }
-
-            // Удаляем плитки, которых нет в сетке
-            tiles.forEach(el => {
-                if (!newTiles.includes(el)) {
-                    el.remove();
-                }
-            });
-            tiles = newTiles;
         }
 
         function getTileBackground(val) {
@@ -561,7 +557,6 @@
                 }
             }
 
-            // ---- ПУСТОЙ ХОД ----
             if (!moved) {
                 emptyMoves++;
                 if (emptyMoves >= 2) {
@@ -571,17 +566,13 @@
                 return;
             }
 
-            // ---- ХОД СО СЛИЯНИЯМИ ----
             emptyMoves = 0;
 
-            // КОМБО: +1 ЗА КАЖДОЕ СЛИЯНИЕ
+            // КОМБО +1 ЗА КАЖДОЕ СЛИЯНИЕ
             combo += mergeCountThisMove;
-
-            // Бонус к счёту: +0.1 за каждое слияние в комбо, макс +20 за ход
             const bonus = Math.min(combo * 0.1, 20);
             score += bonus;
 
-            // Показываем комбо (только если оно > 1)
             if (combo > 1) {
                 showCombo(combo);
                 soundCombo(combo);
@@ -591,7 +582,7 @@
             soundMove();
             updateScore();
 
-            // ---- САЛЮТЫ НА КАЖДОМ СЛИЯНИИ (НАД МЕСТОМ СЛИЯНИЯ) ----
+            // САЛЮТЫ НАД ПЛИТКАМИ
             for (const pos of mergedPositions) {
                 const rect = boardEl.getBoundingClientRect();
                 const size = boardEl.clientWidth / SIZE;
@@ -600,14 +591,12 @@
                 createFirework(cx, cy, 20, '#ff6b6b');
             }
 
-            // ---- СЧЁТЧИК СЛИЯНИЙ ДЛЯ СМЕНЫ ФОНА ----
             mergeCount += mergeCountThisMove;
             if (mergeCount >= 20) {
                 mergeCount = 0;
                 changeBackgroundByMerge();
             }
 
-            // ---- ПРОВЕРКА НА 2048 ----
             let has2048 = false;
             for (let r = 0; r < SIZE; r++) {
                 for (let c = 0; c < SIZE; c++) {
@@ -621,14 +610,12 @@
                 changeBackgroundByNumber(2048);
             }
 
-            // ---- САЛЮТ ЗА 1000 ОЧКОВ ----
             const threshold = Math.floor(score / 1000);
             if (threshold > 0 && (!window._lastThreshold || window._lastThreshold < threshold)) {
                 window._lastThreshold = threshold;
                 celebrateScore(threshold * 1000);
             }
 
-            // ---- САЛЮТ ДЛЯ БОЛЬШИХ ЧИСЕЛ ----
             for (let r = 0; r < SIZE; r++) {
                 for (let c = 0; c < SIZE; c++) {
                     const val = grid[r][c];
@@ -643,7 +630,7 @@
             }
 
             addRandomTile();
-            render(true);
+            render();
 
             if (isGameOver()) {
                 gameOver = true;
